@@ -13,5 +13,6 @@ public class AllBadgesTest {
 		List<Badge> allBadges = new AllBadges(new AllCommits()).list();
 		assertThat(allBadges).hasSize(2);
 		assertThat(allBadges).onProperty("label").containsSequence("Top Committer", "Fatty Committer");
+		assertThat(allBadges).onProperty("image").containsSequence("TopCommitter.png", "FattyCommitter.png");
 	}
 }
