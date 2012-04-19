@@ -1,5 +1,6 @@
 package net.codestory;
 
+import com.google.inject.*;
 import org.lesscss.*;
 
 import javax.activation.*;
@@ -13,6 +14,9 @@ import java.util.*;
 public class CodeStoryResource {
 	private static final String ROOT_WEB_URL = "src/web";
 
+	@Inject
+	private AllCommits allCommits;
+
 	@GET
 	public Response index() {
 		return Response.temporaryRedirect(URI.create("index.html")).build();
@@ -22,7 +26,7 @@ public class CodeStoryResource {
 	@Path("commits")
 	@Produces("application/json;charset=UTF-8")
 	public List<Commit> commits() {
-		return new AllCommits().list();
+		return allCommits.list();
 	}
 
 	@GET
