@@ -54,6 +54,11 @@ public class CodeStoryServerTest {
 	}
 
 	@Test
+	public void should_return_a_404() {
+		given().port(port()).response().statusCode(404).when().get("/foobar");
+	}
+
+	@Test
 	public void should_serve_favicon() {
 		given().port(port()).response().statusCode(200).when().get("/fusee-16x16.png");
 	}

@@ -1,5 +1,6 @@
 package net.codestory;
 
+import com.sun.jersey.api.*;
 import com.google.inject.*;
 import org.lesscss.*;
 
@@ -47,7 +48,7 @@ public class CodeStoryResource {
 	public Response staticResource(@PathParam("path") String path) {
 		File file = new File(ROOT_WEB_URL, path);
 		if (!file.exists()) {
-			throw new WebApplicationException(404);
+			throw new NotFoundException();
 		}
 		String mimeType = new MimetypesFileTypeMap().getContentType(file);
 		return Response.ok(file, mimeType).build();
