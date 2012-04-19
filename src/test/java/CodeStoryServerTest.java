@@ -2,7 +2,7 @@ import net.gageot.test.rules.*;
 import net.gageot.test.utils.*;
 import org.junit.*;
 
-import static net.gageot.test.rules.ServiceRule.startWithRandomPort;
+import static net.gageot.test.rules.ServiceRule.*;
 import static org.fest.assertions.Assertions.*;
 
 public class CodeStoryServerTest {
