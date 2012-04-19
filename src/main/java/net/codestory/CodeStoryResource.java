@@ -12,7 +12,7 @@ public class CodeStoryResource {
 
 	@GET
 	public File index() {
-		return new File(ROOT_WEB_URL + "index.html");
+		return new File(ROOT_WEB_URL, "index.html");
 	}
 
 	@GET
