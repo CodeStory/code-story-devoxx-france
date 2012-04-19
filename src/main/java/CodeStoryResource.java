@@ -9,16 +9,9 @@ public class CodeStoryResource {
 	}
 
 	@GET
-	@Path("mustache.js")
+	@Path("{path: .* }")
 	@Produces("application/javascript;charset=UTF-8")
-	public File mustache() {
-		return new File("mustache.js");
-	}
-
-	@GET
-	@Path("jquery.js")
-	@Produces("application/javascript;charset=UTF-8")
-	public File jquery() {
-		return new File("jquery.js");
+	public File script(@PathParam("path") String path) {
+		return new File(path);
 	}
 }
