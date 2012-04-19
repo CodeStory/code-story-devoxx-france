@@ -32,4 +32,9 @@ public class CodeStoryResourceTest {
 
 		assertThat(css).contains("color: #ffffff;");
 	}
+
+	@Test
+	public void should_serve_favicon() {
+		given().port(port()).response().statusCode(200).when().get("/fusee-16x16.png");
+	}
 }

@@ -8,7 +8,7 @@ import java.util.*;
 
 @Path("/")
 public class CodeStoryResource {
-	private static final String ROOT_WEB_URL = "src/web/";
+	private static final String ROOT_WEB_URL = "src/web";
 
 	@GET
 	public File index() {
@@ -23,15 +23,22 @@ public class CodeStoryResource {
 	}
 
 	@GET
-	@Path("{path: .* }")
+	@Path("{path: .*\\.js }")
 	@Produces("application/javascript;charset=UTF-8")
 	public File script(@PathParam("path") String path) {
-		return new File(ROOT_WEB_URL + path);
+		return new File(ROOT_WEB_URL, path);
 	}
 
 	@GET
 	@Path("style.less")
 	public String style() throws IOException, LessException {
-		return new LessCompiler().compile(new File(ROOT_WEB_URL + "style.less"));
+		return new LessCompiler().compile(new File(ROOT_WEB_URL, "style.less"));
+	}
+
+	@GET
+	@Path("{path: .*\\.png }")
+	@Produces("image/png")
+	public File images(@PathParam("path") String path) {
+		return new File(ROOT_WEB_URL, path);
 	}
 }
