@@ -1,13 +1,11 @@
 package net.codestory;
 
-import com.jayway.restassured.*;
 import net.gageot.test.rules.*;
 import org.junit.*;
 
-import java.util.*;
-
+import static com.jayway.restassured.RestAssured.*;
 import static net.gageot.test.rules.ServiceRule.*;
-import static org.fest.assertions.Assertions.*;
+import static org.hamcrest.Matchers.*;
 
 public class CodeStoryResourceTest {
 	@ClassRule
@@ -18,10 +16,8 @@ public class CodeStoryResourceTest {
 	}
 
 	@Test
-	public void should_return_all_commits() {
-		System.out.print(RestAssured.get("http://localhost:" + port() + "/commits").getBody().asString());
-		List<Commit> commits = new CodeStoryResource().commits();
-		assertThat(commits.size()).isEqualTo(11);
+	public void should_return_commits_json() {
+		given().port(port()).expect().body("author", hasItems("jlm", "dgageot")).when().get("/commits");
 	}
 
 }
