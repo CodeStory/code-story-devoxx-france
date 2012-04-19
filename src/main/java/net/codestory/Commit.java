@@ -6,4 +6,5 @@ import lombok.*;
 public class Commit {
 	private final String author;
 	private final String message;
+	private final String date;
 }
