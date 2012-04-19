@@ -3,15 +3,15 @@ import com.sun.jersey.api.container.httpserver.*;
 import com.sun.net.httpserver.*;
 
 public class CodeStoryServer extends AbstractIdleService {
-	private HttpServer httpServer;
 	private final int port;
+	private HttpServer httpServer;
 
 	public CodeStoryServer(int port) {
 		this.port = port;
 	}
 
-	public static void main(String[] args) throws Exception {
-		new CodeStoryServer(8080).startAndWait();
+	public int getPort() {
+		return port;
 	}
 
 	@Override
@@ -21,11 +21,11 @@ public class CodeStoryServer extends AbstractIdleService {
 	}
 
 	@Override
-	protected void shutDown() throws Exception {
+	protected void shutDown() {
 		httpServer.stop(1);
 	}
 
-	public int getPort() {
-		return port;
+	public static void main(String[] args) {
+		new CodeStoryServer(8080).startAndWait();
 	}
 }

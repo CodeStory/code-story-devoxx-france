@@ -6,13 +6,17 @@ import static net.gageot.test.rules.ServiceRule.*;
 import static org.fest.assertions.Assertions.*;
 
 public class CodeStoryServerTest {
-	@Rule
+	@ClassRule
 	public static ServiceRule<CodeStoryServer> codeStoryServer = startWithRandomPort(CodeStoryServer.class);
 
-	@Test
-	public void can() {
-		int returnCode = new Shell().execute("./mocha.sh testListeCommits.js " + codeStoryServer.service().getPort());
+	private static int port() {
+		return codeStoryServer.service().getPort();
+	}
 
-		assertThat(returnCode).isZero();
+	@Test
+	public void can_show_commit_list() {
+		int exitCode = new Shell().execute("./mocha.sh testListeCommits.js " + port());
+
+		assertThat(exitCode).isZero();
 	}
 }
