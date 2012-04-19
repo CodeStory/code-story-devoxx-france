@@ -26,9 +26,9 @@ public class CodeStoryResource {
 	}
 
 	@GET
-	@Path("style.less")
-	public String style() throws IOException, LessException {
-		return new LessCompiler().compile(new File(ROOT_WEB_URL, "style.less"));
+	@Path("{path : .*\\.less}")
+	public String style(@PathParam("path") String path) throws IOException, LessException {
+		return new LessCompiler().compile(new File(ROOT_WEB_URL, path));
 	}
 
 	@GET
