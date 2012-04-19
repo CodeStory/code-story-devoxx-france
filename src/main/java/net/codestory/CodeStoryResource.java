@@ -2,7 +2,9 @@ package net.codestory;
 
 import org.lesscss.*;
 
+import javax.activation.*;
 import javax.ws.rs.*;
+import javax.ws.rs.core.*;
 import java.io.*;
 import java.util.*;
 
@@ -23,22 +25,19 @@ public class CodeStoryResource {
 	}
 
 	@GET
-	@Path("{path: .*\\.js }")
-	@Produces("application/javascript;charset=UTF-8")
-	public File script(@PathParam("path") String path) {
-		return new File(ROOT_WEB_URL, path);
-	}
-
-	@GET
 	@Path("style.less")
 	public String style() throws IOException, LessException {
 		return new LessCompiler().compile(new File(ROOT_WEB_URL, "style.less"));
 	}
 
 	@GET
-	@Path("{path: .*\\.png }")
-	@Produces("image/png")
-	public File images(@PathParam("path") String path) {
-		return new File(ROOT_WEB_URL, path);
+	@Path("{path : .*}")
+	public Response staticResource(@PathParam("path") String path) {
+		File file = new File(ROOT_WEB_URL, path);
+		if (!file.exists()) {
+			throw new WebApplicationException(404);
+		}
+		String mimeType = new MimetypesFileTypeMap().getContentType(file);
+		return Response.ok(file, mimeType).build();
 	}
 }

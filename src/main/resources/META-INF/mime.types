@@ -1,0 +1,4 @@
+# the format is <mime type> <space separated file extensions>
+text/css css
+application/javascript js
+image/png png
