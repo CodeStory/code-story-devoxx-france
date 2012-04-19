@@ -1,7 +1,9 @@
 Browser = require("zombie");
 expect = require("expect.js");
 
-home = "http://localhost:8080/";
+port = process.args.PORT;
+
+home = "http://localhost:" + port + "/";
 
 test("Checking Commits", function (done) {
         Browser.visit(home, function (e, browser) {

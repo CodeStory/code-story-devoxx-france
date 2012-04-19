@@ -1,18 +1,39 @@
+import com.google.common.util.concurrent.*;
 import com.sun.jersey.api.container.httpserver.*;
 import com.sun.net.httpserver.*;
 
 import javax.ws.rs.*;
 import java.io.*;
 
-@Path("/")
-public class CodeStoryServer {
+public class CodeStoryServer extends AbstractIdleService {
+	private HttpServer httpServer;
+	private final int port;
+
+	public CodeStoryServer(int port) {
+		this.port = port;
+	}
+
 	@GET
 	public File index() {
 		return new File("index.html");
 	}
 
 	public static void main(String[] args) throws Exception {
-		HttpServer httpServer = HttpServerFactory.create("http://localhost:8080/");
+		new CodeStoryServer(8080).startAndWait();
+	}
+
+	@Override
+	protected void startUp() throws Exception {
+		httpServer = HttpServerFactory.create("http://localhost:" + port + "/");
 		httpServer.start();
+	}
+
+	@Override
+	protected void shutDown() throws Exception {
+		httpServer.stop(1);
+	}
+
+	public int getPort() {
+		return port;
 	}
 }
