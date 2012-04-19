@@ -6,6 +6,7 @@ import javax.activation.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.io.*;
+import java.net.*;
 import java.util.*;
 
 @Path("/")
@@ -13,8 +14,8 @@ public class CodeStoryResource {
 	private static final String ROOT_WEB_URL = "src/web";
 
 	@GET
-	public File index() {
-		return new File(ROOT_WEB_URL, "index.html");
+	public Response index() {
+		return Response.temporaryRedirect(URI.create("index.html")).build();
 	}
 
 	@GET
