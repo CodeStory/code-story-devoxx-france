@@ -18,6 +18,9 @@ public class CodeStoryResource {
 	@Inject
 	private AllCommits allCommits;
 
+	@Inject
+	private AllBadges allBadges;
+
 	@GET
 	public Response index() {
 		return Response.temporaryRedirect(URI.create("index.html")).build();
@@ -34,7 +37,7 @@ public class CodeStoryResource {
 	@Path("badges")
 	@Produces("application/json;charset=UTF-8")
 	public List<Badge> badges() {
-		return new AllBadges(new AllCommits()).list();
+		return allBadges.list();
 	}
 
 	@GET

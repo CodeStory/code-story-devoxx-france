@@ -1,5 +1,7 @@
 package net.codestory;
 
+import com.google.inject.*;
+
 import java.util.*;
 
 import static java.util.Arrays.*;
@@ -9,8 +11,8 @@ public class AllBadges {
 			new Badge("Top Committer", "TopCommitter.png"), //
 			new Badge("Fatty Committer", "FattyCommitter.png"));
 
-	public AllBadges(AllCommits allCommits) {
-	}
+	@Inject
+	private AllCommits allCommits;
 
 	public List<Badge> list() {
 		return badges;
