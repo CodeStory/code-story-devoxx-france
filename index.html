@@ -5,12 +5,34 @@
 </head>
 <body>
 <div id="commits">
-	<div class="commit">dgageot
-		<div class="message">last commit</div>
-	</div>
-	<div class="commit">jlm
-		<div class="message">first commit</div>
-	</div>
+	<script type="text/x-template" id="commit-template">
+		{{#commit}}
+		<div class="commit">{{author}}
+			<div class="message">{{message}}</div>
+		</div>
+		{{/commit}}
+	</script>
 </div>
 </body>
+
+<script src="mustache.js">
+</script>
+<script src="jquery.js">
+</script>
+<script>
+	var commits = {
+		"commit":[
+			{
+				"author":"dgageot",
+				"message":"last commit"
+			},
+			{
+				"author":"jlm",
+				"message":"first commit"
+			}
+		]
+	};
+
+	$("#commits").html(Mustache.to_html($('#commit-template').html(), commits));
+</script>
 </html>
