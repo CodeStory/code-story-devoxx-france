@@ -33,7 +33,7 @@ public class CodeStoryResource {
 	@Path("badges")
 	@Produces("application/json;charset=UTF-8")
 	public List<Badge> badges() {
-		return new AllBadges().list();
+		return new AllBadges(new AllCommits()).list();
 	}
 
 	@GET
