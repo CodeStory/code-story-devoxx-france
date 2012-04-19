@@ -1,12 +1,12 @@
 package net.gageot;
 
-import java.util.*;
+import com.google.common.collect.*;
 
-import static com.google.common.collect.Lists.*;
+import java.util.*;
 
 public class AllCommits {
 
-	public List<String> list(String codestory) {
-		return newArrayList("commit1", "commit2", "commit3");
+	public List<Commit> list() {
+		return Lists.newArrayList(new Commit("dgageot"), new Commit("jlmorlhon"), new Commit("seblm"));
 	}
 }
