@@ -9,11 +9,11 @@ import static org.fest.assertions.Assertions.*;
 public class AllCommitsTest {
 	private static String JL_GRAVATAR = "https://secure.gravatar.com/avatar/649d3668d3ba68e75a3441dec9eac26e";
 	private static String DAVID_GRAVATAR = "https://secure.gravatar.com/avatar/f0887bf6175ba40dca795eb37883a8cf";
-	List<Commit> commits = new AllCommits().list();
+
+	List<Commit> commits = new AllCommits("jlm", "NodeGravatar").list();
 
 	@Test
 	public void should_display_project_commits() throws Exception {
-
 		assertThat(commits).hasSize(11);
 		assertThat(commits).onProperty("author").containsSequence("jlm", "jlm", "jlm", "dgageot");
 		assertThat(commits).onProperty("gravatarUrl").containsSequence(JL_GRAVATAR, JL_GRAVATAR, JL_GRAVATAR, DAVID_GRAVATAR);
