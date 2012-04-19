@@ -14,5 +14,6 @@ public class AllCommitsTest {
 		List<Commit> commits = allCommits.list();
 		assertThat(commits).hasSize(3);
 		assertThat(commits).onProperty("author").containsExactly("dgageot", "jlmorlhon", "seblm");
+		assertThat(commits).onProperty("message").containsExactly("first commit", "second commit", "third commit");
 	}
 }
