@@ -26,42 +26,9 @@
 <script src="jquery.js">
 </script>
 <script>
-	var commits = {
-		"commit":[
-			{
-				"author":"dgageot",
-				"message":"last commit",
-				"date":"29/03/2012",
-				"gravatarUrl":"https://secure.gravatar.com/avatar/f0887bf6175ba40dca795eb37883a8cf"
-			},
-			{
-				"author":"jlm",
-				"message":"first commit",
-				"date":"29/03/2012",
-				"gravatarUrl":"https://secure.gravatar.com/avatar/649d3668d3ba68e75a3441dec9eac26e"
-			},
-			{
-				"author":"jlm",
-				"message":"first commit",
-				"date":"29/03/2012",
-				"gravatarUrl":"https://secure.gravatar.com/avatar/649d3668d3ba68e75a3441dec9eac26e"
-			},
-			{
-				"author":"jlm",
-				"message":"first commit",
-				"date":"29/03/2012",
-				"gravatarUrl":"https://secure.gravatar.com/avatar/649d3668d3ba68e75a3441dec9eac26e"
-			},
-			{
-				"author":"jlm",
-				"message":"first commit",
-				"date":"29/03/2012",
-				"gravatarUrl":"https://secure.gravatar.com/avatar/649d3668d3ba68e75a3441dec9eac26e"
-			}
-		]
-	};
-
-	$("#commits").html(Mustache.to_html($('#commit-template').html(), commits));
+	$.getJSON('commits', function (json) {
+		$("#commits").html(Mustache.to_html($('#commit-template').html(), {commit:json}));
+	})
 </script>
 <script>
 	$(function () {
