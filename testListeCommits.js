@@ -13,17 +13,17 @@ test("Checking Page Title", function (done) {
 
 test("Checking Commits", function (done) {
         Browser.visit(home, function (e, browser) {
-            expect(browser.query("#commits .commit:nth-child(1):contains('jlm')")).to.be.ok();
-            expect(browser.query("#commits .commit:nth-child(2):contains('jlm')")).to.be.ok();
+            expect(browser.query("#commits .commit:nth-child(1):contains('author1')")).to.be.ok();
+            expect(browser.query("#commits .commit:nth-child(2):contains('author2')")).to.be.ok();
 
-            expect(browser.query("#commits .commit:nth-child(1) .message:contains('Update README.md')")).to.be.ok();
-            expect(browser.query("#commits .commit:nth-child(2) .message:contains('removing file extensiosn')")).to.be.ok();
+            expect(browser.query("#commits .commit:nth-child(1) .message:contains('message1')")).to.be.ok();
+            expect(browser.query("#commits .commit:nth-child(2) .message:contains('message2')")).to.be.ok();
 
-            expect(browser.query("#commits .commit:nth-child(1) .date:contains('19/04/2012')")).to.be.ok();
-            expect(browser.query("#commits .commit:nth-child(2) .date:contains('29/03/2012')")).to.be.ok();
+            expect(browser.query("#commits .commit:nth-child(1) .date:contains('date1')")).to.be.ok();
+            expect(browser.query("#commits .commit:nth-child(2) .date:contains('date2')")).to.be.ok();
 
-            expect(browser.query("#commits .commit:nth-child(1) img[src='https://secure.gravatar.com/avatar/649d3668d3ba68e75a3441dec9eac26e']")).to.be.ok();
-            expect(browser.query("#commits .commit:nth-child(2) img[src='https://secure.gravatar.com/avatar/649d3668d3ba68e75a3441dec9eac26e']")).to.be.ok();
+            expect(browser.query("#commits .commit:nth-child(1) img[src='url1']")).to.be.ok();
+            expect(browser.query("#commits .commit:nth-child(2) img[src='url2']")).to.be.ok();
 
             done();
         });

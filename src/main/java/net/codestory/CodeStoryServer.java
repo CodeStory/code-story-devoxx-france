@@ -10,10 +10,12 @@ import org.codehaus.jackson.jaxrs.*;
 
 public class CodeStoryServer extends AbstractIdleService {
 	private final int port;
+	private final Module[] modules;
 	private HttpServer httpServer;
 
-	public CodeStoryServer(int port) {
+	public CodeStoryServer(int port, Module... modules) {
 		this.port = port;
+		this.modules = modules;
 	}
 
 	public int getPort() {
@@ -23,7 +25,7 @@ public class CodeStoryServer extends AbstractIdleService {
 	@Override
 	protected void startUp() throws Exception {
 		ResourceConfig config = new DefaultResourceConfig(CodeStoryResource.class, JacksonJsonProvider.class);
-		Injector injector = Guice.createInjector();
+		Injector injector = Guice.createInjector(modules);
 		GuiceComponentProviderFactory ioc = new GuiceComponentProviderFactory(config, injector);
 
 		httpServer = HttpServerFactory.create("http://localhost:" + port + "/", config, ioc);
