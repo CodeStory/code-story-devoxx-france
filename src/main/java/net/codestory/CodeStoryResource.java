@@ -30,6 +30,13 @@ public class CodeStoryResource {
 	}
 
 	@GET
+	@Path("badges")
+	@Produces("application/json;charset=UTF-8")
+	public List<Badge> badges() {
+		return new AllBadges().list();
+	}
+
+	@GET
 	@Path("{path : .*\\.less}")
 	public String style(@PathParam("path") String path) throws IOException, LessException {
 		return new LessCompiler().compile(new File(ROOT_WEB_URL, path));

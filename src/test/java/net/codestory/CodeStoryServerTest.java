@@ -42,6 +42,11 @@ public class CodeStoryServerTest {
 	}
 
 	@Test
+	public void should_return_badges_json() {
+		given().port(port()).expect().body("label", hasItems("Top Committer", "Fatty Committer")).when().get("/badges");
+	}
+
+	@Test
 	public void should_serve_style_as_less() throws IOException {
 		String css = Resources.toString(new URL("http://localhost:" + port() + "/style.less"), UTF_8);
 
