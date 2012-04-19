@@ -29,3 +29,11 @@ test("Checking Commits", function (done) {
         });
     }
 );
+
+test("Checking project name", function (done) {
+        Browser.visit(home, function (e, browser) {
+            expect(browser.query("#project-name:contains('CodeStory')")).to.be.ok();
+            done();
+        });
+    }
+);

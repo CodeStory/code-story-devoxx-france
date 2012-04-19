@@ -6,9 +6,11 @@ import java.util.*;
 
 @Path("/")
 public class CodeStoryResource {
+	private static final String ROOT_WEB_URL = "src/web/";
+
 	@GET
 	public File index() {
-		return new File("index.html");
+		return new File(ROOT_WEB_URL + "index.html");
 	}
 
 	@GET
@@ -22,6 +24,6 @@ public class CodeStoryResource {
 	@Path("{path: .* }")
 	@Produces("application/javascript;charset=UTF-8")
 	public File script(@PathParam("path") String path) {
-		return new File(path);
+		return new File(ROOT_WEB_URL + path);
 	}
 }
