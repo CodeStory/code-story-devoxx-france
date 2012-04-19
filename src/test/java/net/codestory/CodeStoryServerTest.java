@@ -1,3 +1,5 @@
+package net.codestory;
+
 import net.gageot.test.rules.*;
 import net.gageot.test.utils.*;
 import org.junit.*;

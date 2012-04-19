@@ -1,6 +1,10 @@
+package net.codestory;
+
 import com.google.common.util.concurrent.*;
 import com.sun.jersey.api.container.httpserver.*;
+import com.sun.jersey.api.core.*;
 import com.sun.net.httpserver.*;
+import org.codehaus.jackson.jaxrs.*;
 
 public class CodeStoryServer extends AbstractIdleService {
 	private final int port;
@@ -16,7 +20,8 @@ public class CodeStoryServer extends AbstractIdleService {
 
 	@Override
 	protected void startUp() throws Exception {
-		httpServer = HttpServerFactory.create("http://localhost:" + port + "/");
+		ResourceConfig config = new DefaultResourceConfig(CodeStoryResource.class, JacksonJsonProvider.class);
+		httpServer = HttpServerFactory.create("http://localhost:" + port + "/", config);
 		httpServer.start();
 	}
 
