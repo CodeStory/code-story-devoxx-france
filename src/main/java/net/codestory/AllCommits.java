@@ -32,7 +32,12 @@ public class AllCommits {
 	private static Function<RepositoryCommit, Commit> TO_COMMIT = new Function<RepositoryCommit, Commit>() {
 		@Override
 		public Commit apply(RepositoryCommit repositoryCommit) {
-			return new Commit(repositoryCommit.getCommitter().getLogin(), repositoryCommit.getCommit().getMessage(), format(repositoryCommit.getCommit().getAuthor().getDate()));
+			return new Commit(//
+					repositoryCommit.getCommitter().getLogin(), //
+					repositoryCommit.getCommitter().getAvatarUrl().split("\\?")[0], //
+					repositoryCommit.getCommit().getMessage(), //
+					format(repositoryCommit.getCommit().getAuthor().getDate()) //
+			);
 		}
 
 		private String format(Date date) {
