@@ -15,13 +15,6 @@ public class AllCommits {
 	private static final String USER = "jlm";
 	private static final String PROJECT = "NodeGravatar";
 	private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("dd/MM/yyyy");
-	private final String user;
-	private final String project;
-
-	public AllCommits(String user, String project) {
-		this.user = user;
-		this.project = project;
-	}
 
 	public List<Commit> list() {
 		GitHubClient githubClient = new GitHubClient("github", -1, "http");
