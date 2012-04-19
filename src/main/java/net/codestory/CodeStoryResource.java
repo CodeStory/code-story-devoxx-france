@@ -1,5 +1,7 @@
 package net.codestory;
 
+import org.lesscss.*;
+
 import javax.ws.rs.*;
 import java.io.*;
 import java.util.*;
@@ -25,5 +27,12 @@ public class CodeStoryResource {
 	@Produces("application/javascript;charset=UTF-8")
 	public File script(@PathParam("path") String path) {
 		return new File(ROOT_WEB_URL + path);
+	}
+
+	@GET
+	@Path("style.less")
+	@Produces("test/css")
+	public String style() throws IOException, LessException {
+		return new LessCompiler().compile(new File(ROOT_WEB_URL + "style.less"));
 	}
 }
