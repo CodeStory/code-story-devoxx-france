@@ -2,9 +2,11 @@
 <html>
 <head>
 	<title>CodeStory - HomePage</title>
+	<link type="text/css" rel="stylesheet" href="style.less"/>
 </head>
 <body>
 <h1 id="project-name">CodeStory</h1>
+
 <div id="commits">
 	<script type="text/x-template" id="commit-template">
 		{{#commit}}
@@ -36,10 +38,46 @@
 				"message":"first commit",
 				"date":"29/03/2012",
 				"gravatarUrl":"https://secure.gravatar.com/avatar/649d3668d3ba68e75a3441dec9eac26e"
+			},
+			{
+				"author":"jlm",
+				"message":"first commit",
+				"date":"29/03/2012",
+				"gravatarUrl":"https://secure.gravatar.com/avatar/649d3668d3ba68e75a3441dec9eac26e"
+			},
+			{
+				"author":"jlm",
+				"message":"first commit",
+				"date":"29/03/2012",
+				"gravatarUrl":"https://secure.gravatar.com/avatar/649d3668d3ba68e75a3441dec9eac26e"
+			},
+			{
+				"author":"jlm",
+				"message":"first commit",
+				"date":"29/03/2012",
+				"gravatarUrl":"https://secure.gravatar.com/avatar/649d3668d3ba68e75a3441dec9eac26e"
 			}
 		]
 	};
 
 	$("#commits").html(Mustache.to_html($('#commit-template').html(), commits));
+</script>
+<script>
+	$(function () {
+		var previousScrollTop, currentScrollTop, yPosition = 0;
+		$(window).scroll(function (e) {
+			currentScrollTop = $(window).scrollTop();
+			var diff = previousScrollTop - currentScrollTop;
+			if (isNaN(diff)) {
+				diff = 0;
+			}
+			yPosition = yPosition + diff;
+			previousScrollTop = currentScrollTop;
+			$('body').css('background-position', '0 ' + yPosition + 'px, ' + //
+					'0 ' + yPosition * 2 + 'px, ' + //
+					'0 ' + yPosition * 5 + 'px, ' + //
+					'0 0');
+		});
+	});
 </script>
 </html>

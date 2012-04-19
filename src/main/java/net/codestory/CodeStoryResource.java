@@ -31,7 +31,6 @@ public class CodeStoryResource {
 
 	@GET
 	@Path("style.less")
-	@Produces("test/css")
 	public String style() throws IOException, LessException {
 		return new LessCompiler().compile(new File(ROOT_WEB_URL + "style.less"));
 	}
