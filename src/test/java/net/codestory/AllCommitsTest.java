@@ -7,13 +7,13 @@ import java.util.*;
 import static org.fest.assertions.Assertions.*;
 
 public class AllCommitsTest {
+	List<Commit> commits = new AllCommits().list();
 
 	@Test
 	public void should_display_project_commits() throws Exception {
-		AllCommits allCommits = new AllCommits();
-		List<Commit> commits = allCommits.list();
-		assertThat(commits).hasSize(3);
-		assertThat(commits).onProperty("author").containsExactly("dgageot", "jlmorlhon", "seblm");
-		assertThat(commits).onProperty("message").containsExactly("first commit", "second commit", "third commit");
+
+		assertThat(commits).hasSize(10);
+		assertThat(commits).onProperty("author").containsSequence("jlm", "jlm", "dgageot");
+		assertThat(commits).onProperty("message").containsSequence("removing file extensiosn", "Adding the right pictures", "Unused file");
 	}
 }
