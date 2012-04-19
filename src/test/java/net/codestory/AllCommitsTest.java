@@ -1,4 +1,4 @@
-package net.gageot;
+package net.codestory;
 
 import org.junit.*;
 
