@@ -6,21 +6,29 @@
 	<link type="text/css" rel="stylesheet" href="style.less"/>
 </head>
 <body>
-<h1 id="project-name">CodeStory</h1>
+<h2>CodeStory</h2>
 
 <div id="header"></div>
 
-<div id="commits">
-	<script type="text/x-template" id="commit-template">
-		{{#commit}}
-		<div class="commit">
-			<img src="{{gravatarUrl}}"/>
+<div id="main">
+	<div id="commits">
+		Loading commits...
+		<script type="text/x-template" id="commit-template">
+			{{#commit}}
+			<div class="commit">
+				<img class="portrait" src="{{gravatarUrl}}"/>
 
-			<div class="date">{{date}}</div>
-			<div class="message">{{message}}</div>
-		</div>
-		{{/commit}}
-	</script>
+				<div class="description">
+					<div class="date">{{date}}</div>
+					<p>{{message}}</p>
+				</div>
+			</div>
+			{{/commit}}
+		</script>
+	</div>
+	<div id="badges">
+		Loading badges...
+	</div>
 </div>
 
 </body>

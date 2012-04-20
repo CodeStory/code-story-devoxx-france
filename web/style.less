@@ -1,54 +1,146 @@
-@texte: white;
+@beige: #ECE8CA;
+@darkground: rgba(59, 91, 100, .4);
+
+.centered(@width: 0){
+	width: @width;
+	margin: 0 auto;
+}
+
+.portrait {
+	width: 80px;
+	height: 80px;
+	border-radius: 4px;
+	border: 4px solid white;
+}
 
 body {
-	background: url('background-close-stars.png'), url('background-middle-stars.png'), url('background-far-stars.png'), url('background-repeat.png');
-	color: @texte;
-	font-family: 'Helvetica', sans-serif;
+	color: white;
+	font-family: 'Oxygen', sans-serif;
+	margin: 0;
+	padding: 0;
+	background-image: url('background-close-stars.png'), url('background-middle-stars.png'), url('background-far-stars.png'), url('background-repeat.png');
+	background-repeat: repeat, repeat, repeat, repeat;
+}
 
-	#header {
-		position: fixed;
-		top: 0;
-		background: url('header.png') no-repeat, -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 1.0)), to(rgba(0, 0, 0, 0)));
-		width: 100%;
-		height: 300px;
+#header {
+	position: fixed;
+	height: 300px;
+	background-image: url('header.png'), -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));
+	background-repeat: no-repeat, no-repeat;
+	width: 100%;
+}
+
+#main {
+	.centered(1020px);
+	min-height: 1020px;
+	padding-top: 250px;
+}
+
+#commits {
+	width: 700px;
+	float: left;
+	background: url('ligne.png') repeat-y center 15px;
+
+	.commit {
+		height: 100px;
+		width: 320px;
+		float: left;
+
+		.description {
+			color: white;
+			width: 200px;
+		}
+
+		.date {
+			color: grey;
+		}
+
+		p {
+			margin-top: 3px;
+			margin-bottom: 0;
+		}
 	}
+}
 
-	#commits {
-		margin-top: 300px;
-		margin-left: 300px;
-		width: 600px;
+h2, #badges {
+	position: fixed;
+	right: 40px;
+	width: 300px;
+}
 
-		.commit {
-			width: 300px;
-			height: 100px;
+h2 {
+	height: 77px;
+	line-height: 60px;
+	margin: 0;
+	color: @beige;
+	text-align: center;
+	background: url('project-background.png') no-repeat center;
+	z-index: 9999;
+}
+
+#badges {
+	top: 150px;
+	background: url('project-background.png') repeat-y center;
+	background-size: 300px 1px;
+	min-height: 2000px;
+	border-radius: 10px;
+
+	.badge {
+		height: 100px;
+		padding-top: 20px;
+
+		p, .portrait, .separator {
 			float: left;
+		}
 
-			.date {
-				color: grey;
-			}
+		p {
+			color: white;
+			text-transform: uppercase;
+			font-size: small;
+			width: 90px;
+			text-align: right;
+			margin: 25px 15px 0 0;
+		}
+
+		.separator {
+			background-color: white;
+			width: 10px;
+			height: 5px;
+			margin-top: 40px;
+		}
+
+		.icon {
+			width: 80px;
+			height: 80px;
+			margin-top: 3px;
 		}
 	}
 }
 
 .commit:nth-child(odd) {
-	.date, .message, img {
+	text-align: right;
+	margin-right: 30px;
+
+	.portrait, .description {
 		float: right;
 	}
 
-	.date, .message {
-		padding-right: 10px;
+	.date, p {
+		margin-right: 12px;
 	}
 }
 
 .commit:nth-child(even) {
+	text-align: left;
+	margin-left: 30px;
 	margin-top: 50px;
 
-	.date, .message, img {
+	.portrait, .description {
 		float: left;
 	}
 
-	.date, .message {
-		padding-left: 10px;
+	.date, p {
+		margin-left: 8px;
 	}
 }
 

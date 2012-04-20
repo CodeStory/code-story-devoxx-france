@@ -58,7 +58,7 @@ public class CodeStoryServerTest {
 	public void should_serve_style_as_less() throws IOException {
 		String css = Resources.toString(new URL("http://localhost:" + port() + "/style.less"), UTF_8);
 
-		assertThat(css).contains("color: #ffffff;");
+		assertThat(css).contains("body");
 	}
 
 	@Test

@@ -13,8 +13,8 @@ test("Checking Page Title", function (done) {
 
 test("Checking Commits", function (done) {
         Browser.visit(home, function (e, browser) {
-            expect(browser.query("#commits .commit:nth-child(1) .message:contains('message1')")).to.be.ok();
-            expect(browser.query("#commits .commit:nth-child(2) .message:contains('message2')")).to.be.ok();
+            expect(browser.query("#commits .commit:nth-child(1) .description:contains('message1')")).to.be.ok();
+            expect(browser.query("#commits .commit:nth-child(2) .description:contains('message2')")).to.be.ok();
 
             expect(browser.query("#commits .commit:nth-child(1) img[src='url1']")).to.be.ok();
             expect(browser.query("#commits .commit:nth-child(2) img[src='url2']")).to.be.ok();
@@ -26,7 +26,7 @@ test("Checking Commits", function (done) {
 
 test("Checking project name", function (done) {
         Browser.visit(home, function (e, browser) {
-            expect(browser.query("#project-name:contains('CodeStory')")).to.be.ok();
+            expect(browser.query("h2:contains('CodeStory')")).to.be.ok();
             done();
         });
     }
