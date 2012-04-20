@@ -1,7 +1,7 @@
 package net.codestory;
 
-import com.google.common.io.*;
 import com.google.inject.*;
+import com.jayway.restassured.specification.*;
 import net.gageot.test.rules.*;
 import net.gageot.test.utils.*;
 import org.eclipse.egit.github.core.Commit;
@@ -9,11 +9,10 @@ import org.eclipse.egit.github.core.*;
 import org.junit.*;
 
 import java.io.*;
-import java.net.*;
 import java.util.*;
 
-import static com.google.common.base.Charsets.*;
 import static com.jayway.restassured.RestAssured.*;
+import static groovyx.net.http.ContentType.*;
 import static java.util.Arrays.*;
 import static net.gageot.test.rules.ServiceRule.*;
 import static org.fest.assertions.Assertions.*;
@@ -31,12 +30,8 @@ public class CodeStoryServerTest {
 		}
 	});
 
-	static int port() {
-		return codeStoryServer.service().getPort();
-	}
-
 	@Test
-	public void should_return_commits_json() {
+	public void should_list_commits_as_json() {
 		when(mockAllCommits.list()).thenReturn(asList( //
 				new RepositoryCommit() //
 						.setCommitter(new User().setLogin("jlm")) //
@@ -46,41 +41,20 @@ public class CodeStoryServerTest {
 						.setCommitter(new User().setLogin("dgageot")) //
 						.setCommit(new Commit().setMessage("")).setAuthor(new User().setAvatarUrl(""))));
 
-		given().port(port()).expect().body("author", hasItems("jlm", "dgageot")).when().get("/commits");
-	}
-
-	@Test
-	public void should_return_badges_json() {
-		given().port(port()).expect().body("label", hasItems("Top Committer", "Fatty Committer")).when().get("/badges");
-	}
-
-	@Test
-	public void should_serve_style_as_less() throws IOException {
-		String css = Resources.toString(new URL("http://localhost:" + port() + "/style.less"), UTF_8);
-
-		assertThat(css).contains("body");
-	}
-
-	@Test
-	public void should_return_a_404() {
-		given().port(port()).response().statusCode(404).when().get("/foobar");
-	}
-
-	@Test
-	public void should_serve_favicon() {
-		given().port(port()).response().statusCode(200).when().get("/fusee-16x16.png");
+		expect().body("author", hasItems("jlm", "dgageot")).contentType(JSON) //
+				.when().get("/commits");
 	}
 
 	@Test
 	public void can_show_commit_list() {
 		when(mockAllCommits.list()).thenReturn(asList( //
 				new RepositoryCommit() //
-						.setCommitter(new User().setLogin("author1").setAvatarUrl("url1")) //
+						.setCommitter(new User().setLogin("").setAvatarUrl("url1")) //
 						.setCommit(new Commit().setMessage("message1") //
 								.setAuthor(new CommitUser().setDate(new Date()))) //
 						.setAuthor(new User().setAvatarUrl("url1")), //
 				new RepositoryCommit() //
-						.setCommitter(new User().setLogin("author2").setAvatarUrl("url2")) //
+						.setCommitter(new User().setLogin("").setAvatarUrl("url2")) //
 						.setCommit(new Commit().setMessage("message2")) //
 						.setAuthor(new User().setAvatarUrl("url2")))); //
 
@@ -90,11 +64,34 @@ public class CodeStoryServerTest {
 	}
 
 	@Test
-	public void should_work_with_a_commit_without_commiter() {
-		RepositoryCommit repositoryCommit = new RepositoryCommit();
+	public void should_list_badges_as_json() {
+		expect().body("label", hasItems("Top Committer", "Fatty Committer")) //
+				.when().get("/badges");
+	}
 
-		net.codestory.Commit commit = CodeStoryResource.TO_COMMIT.apply(repositoryCommit);
+	@Test
+	public void should_serve_style_as_less() throws IOException {
+		expect().content(containsString("body")) //
+				.when().get("/style.less");
+	}
 
-		assertThat(commit.getAuthor()).isEqualTo("");
+	@Test
+	public void should_return_a_404() {
+		expect().statusCode(404) //
+				.when().get("/foobar");
+	}
+
+	@Test
+	public void should_serve_favicon() {
+		expect().statusCode(200) //
+				.when().get("/fusee-16x16.png");
+	}
+
+	static int port() {
+		return codeStoryServer.service().getPort();
+	}
+
+	static ResponseSpecification expect() {
+		return given().port(port()).expect();
 	}
 }
