@@ -2,11 +2,8 @@ package net.codestory;
 
 import com.google.common.base.*;
 import org.eclipse.egit.github.core.*;
-import org.eclipse.egit.github.core.client.*;
-import org.eclipse.egit.github.core.service.*;
 import org.joda.time.format.*;
 
-import java.io.*;
 import java.util.*;
 
 import static com.google.common.base.Objects.*;
@@ -16,18 +13,11 @@ public class AllCommits {
 	private static final String USER = "jlm";
 	private static final String PROJECT = "NodeGravatar";
 	private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("dd/MM/yyyy");
+	private final AllGitHubCommits allGitHubCommits = new AllGitHubCommits(USER, PROJECT);
 
 	public List<Commit> list() {
-		GitHubClient githubClient = new GitHubClient("github", -1, "http");
-		CommitService commits = new CommitService(githubClient);
-		RepositoryService repository = new RepositoryService(githubClient);
-
-		try {
-			List<RepositoryCommit> githubCommits = commits.getCommits(repository.getRepository(USER, PROJECT));
-			return transform(githubCommits, TO_COMMIT);
-		} catch (IOException e) {
-			throw Throwables.propagate(e);
-		}
+		List<RepositoryCommit> repositoryCommits = allGitHubCommits.fetchCommitFromGitHub();
+		return transform(repositoryCommits, TO_COMMIT);
 	}
 
 	private static final User NULL_USER = new User().setLogin("").setAvatarUrl("");
