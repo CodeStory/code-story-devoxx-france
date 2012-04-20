@@ -17,7 +17,7 @@ public class AllCommitsTest {
 		assertThat(commits).hasSize(11);
 		RepositoryCommit firstCommit = commits.get(0);
 
-		assertThat(firstCommit.getAuthor().getLogin()).isEqualTo("jlm");
+		assertThat(firstCommit.getAuthor().getLogin()).isEqualTo("jjlm");
 		assertThat(firstCommit.getAuthor().getAvatarUrl()).contains("https://secure.gravatar.com/avatar/649d3668d3ba68e75a3441dec9eac26e");
 		assertThat(firstCommit.getCommit().getMessage()).isEqualTo("Update README.md");
 		assertThat(DateFormat.format(firstCommit.getCommit().getAuthor().getDate())).isEqualTo("19/04/2012");
