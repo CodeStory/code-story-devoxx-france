@@ -30,52 +30,24 @@ public class CodeStoryServerTest {
 		}
 	});
 
+	@Before
+	public void setupMocks() {
+		when(mockAllCommits.list()).thenReturn(asList(commit("author1", "url1", "message1"), commit("author2", "url2", "message2")));
+	}
+
 	@Test
 	public void should_list_commits_as_json() {
-		when(mockAllCommits.list()).thenReturn(asList( //
-				new RepositoryCommit() //
-						.setCommitter(new User().setLogin("jlm")) //
-						.setCommit(new Commit().setMessage("")) //
-						.setAuthor(new User().setAvatarUrl("")), //
-				new RepositoryCommit() //
-						.setCommitter(new User().setLogin("dgageot")) //
-						.setCommit(new Commit().setMessage("")).setAuthor(new User().setAvatarUrl(""))));
-
-		expect().body("author", hasItems("jlm", "dgageot")).contentType(JSON) //
+		expect().body("author", hasItems("author1", "author2")).contentType(JSON) //
 				.when().get("/commits");
 	}
 
 	@Test
-	public void can_show_home_page() {
-		when(mockAllCommits.list()).thenReturn(asList( //
-				new RepositoryCommit() //
-						.setCommitter(new User().setLogin("").setAvatarUrl("url1")) //
-						.setCommit(new Commit().setMessage("message1") //
-								.setAuthor(new CommitUser().setDate(new Date()))) //
-						.setAuthor(new User().setAvatarUrl("url1")), //
-				new RepositoryCommit() //
-						.setCommitter(new User().setLogin("").setAvatarUrl("url2")) //
-						.setCommit(new Commit().setMessage("message2")) //
-						.setAuthor(new User().setAvatarUrl("url2")))); //
-
-		int exitCode = new Shell().execute("./mocha.sh testHomePage.js " + port());
-
-		assertThat(exitCode).isZero();
+	public void should_show_home_page() {
+		assertThat(jsTest("testHomePage.js")).isTrue();
 	}
 
 	@Test
 	public void should_list_badges_as_json() {
-		when(mockAllCommits.list()).thenReturn(asList( //
-				new RepositoryCommit() //
-						.setCommitter(new User().setLogin("").setAvatarUrl("url1")) //
-						.setCommit(new Commit().setMessage("message1") //
-								.setAuthor(new CommitUser().setDate(new Date()))) //
-						.setAuthor(new User().setAvatarUrl("url1")), //
-				new RepositoryCommit() //
-						.setCommitter(new User().setLogin("").setAvatarUrl("url2")) //
-						.setCommit(new Commit().setMessage("message2")) //
-						.setAuthor(new User().setAvatarUrl("url2")))); //
-
 		expect().body("label", hasItems("Top Committer", "Fatty Committer")) //
 				.when().get("/badges");
 	}
@@ -96,6 +68,17 @@ public class CodeStoryServerTest {
 	public void should_serve_favicon() {
 		expect().statusCode(200) //
 				.when().get("/fusee-16x16.png");
+	}
+
+	static boolean jsTest(String jsTest) {
+		return 0 == new Shell().execute(String.format("./mocha.sh %s %d", jsTest, port()));
+	}
+
+	static RepositoryCommit commit(String login, String avatarUrl, String message) {
+		return new RepositoryCommit() //
+				.setAuthor(new User().setLogin(login).setAvatarUrl(avatarUrl)) //
+				.setCommitter(new User().setLogin(login).setAvatarUrl(avatarUrl)) //
+				.setCommit(new Commit().setMessage(message).setAuthor(new CommitUser().setDate(new Date())));
 	}
 
 	static int port() {
