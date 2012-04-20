@@ -71,7 +71,7 @@ public class CodeStoryResource {
 					avatarUrl.split("\\?")[0], //
 					commit.getMessage(), //
 					DateFormat.format(commit.getAuthor().getDate()), //
-					"SUCCESS");
+					commit.getSha().isEmpty() ? "FAILURE" : "SUCCESS");
 		}
 	};
 }

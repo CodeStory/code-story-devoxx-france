@@ -37,7 +37,7 @@ public class CodeStoryServerTest {
 	public void setupMocks() throws IOException {
 		when(mockAllCommits.list()).thenReturn(asList( //
 				commit("sha1", "author1", "url1", "message1"), //
-				commit("sha2", "author2", "url2", "message2")));
+				commit("", "author2", "url2", "message2")));
 
 		when(mockAllBuilds.list()).thenReturn(asList(new Build("SUCCESS", new ChangesSet(asList(new Item("sha1"))))));
 	}

@@ -20,6 +20,7 @@ test("Checking Commits", function (done) {
             expect(browser.query("#commits .commit:nth-child(2) img[src='url2']")).to.be.ok();
 
             expect(browser.query("#commits .commit:nth-child(1) img[class='portrait SUCCESS']")).to.be.ok();
+            expect(browser.query("#commits .commit:nth-child(2) img[class='portrait FAILURE']")).to.be.ok();
 
             done();
         });
