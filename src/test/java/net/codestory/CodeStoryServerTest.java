@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 
 public class CodeStoryServerTest {
-	private final static AllCommits mockAllCommits = mock(AllCommits.class);
+	static AllCommits mockAllCommits = mock(AllCommits.class);
 
 	@ClassRule
 	public static ServiceRule<CodeStoryServer> codeStoryServer = startWithRandomPort(CodeStoryServer.class, new AbstractModule() {
@@ -31,7 +31,7 @@ public class CodeStoryServerTest {
 		}
 	});
 
-	private static int port() {
+	static int port() {
 		return codeStoryServer.service().getPort();
 	}
 
