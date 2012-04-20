@@ -6,4 +6,5 @@ import lombok.*;
 public class Badge {
 	private final String label;
 	private final String image;
+	private final String gravatarUrl;
 }

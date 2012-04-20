@@ -46,7 +46,7 @@ public class CodeStoryServerTest {
 	}
 
 	@Test
-	public void can_show_commit_list() {
+	public void can_show_home_page() {
 		when(mockAllCommits.list()).thenReturn(asList( //
 				new RepositoryCommit() //
 						.setCommitter(new User().setLogin("").setAvatarUrl("url1")) //
@@ -58,7 +58,7 @@ public class CodeStoryServerTest {
 						.setCommit(new Commit().setMessage("message2")) //
 						.setAuthor(new User().setAvatarUrl("url2")))); //
 
-		int exitCode = new Shell().execute("./mocha.sh testListeCommits.js " + port());
+		int exitCode = new Shell().execute("./mocha.sh testHomePage.js " + port());
 
 		assertThat(exitCode).isZero();
 	}

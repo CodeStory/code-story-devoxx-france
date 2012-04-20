@@ -14,6 +14,6 @@ public class AllBadgesTest {
 		List<Badge> badges = allBadges.list();
 
 		assertThat(badges).onProperty("label").containsSequence("Top Committer", "Fatty Committer");
-		assertThat(badges).onProperty("image").containsSequence("TopCommitter.png", "FattyCommitter.png");
+		assertThat(badges).onProperty("image").containsSequence("/badges/topCommiter.png", "/badges/fatty.png");
 	}
 }

@@ -28,6 +28,20 @@
 	</div>
 	<div id="badges">
 		Loading badges...
+		<script type="text/x-template" id="badges-template">
+			{{#badges}}
+			<div class="badge">
+				<p>{{label}}</p>
+
+				<div class="portrait">
+					<img src="{{gravatarUrl}}"/></p>
+				</div>
+
+				<div class="separator"></div>
+				<img class="icon" src="{{image}}"/>
+			</div>
+			{{/badges}}
+		</script>
 	</div>
 </div>
 
@@ -40,6 +54,11 @@
 <script>
 	$.getJSON('commits', function (json) {
 		$("#commits").html(Mustache.to_html($('#commit-template').html(), {commit:json}));
+	})
+</script>
+<script>
+	$.getJSON('badges', function (json) {
+		$("#badges").html(Mustache.to_html($('#badges-template').html(), {badges:json}));
 	})
 </script>
 <script>
