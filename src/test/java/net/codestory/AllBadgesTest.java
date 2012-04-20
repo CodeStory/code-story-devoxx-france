@@ -1,20 +1,30 @@
 package net.codestory;
 
+import org.eclipse.egit.github.core.*;
 import org.junit.*;
+import org.junit.runner.*;
+import org.mockito.*;
+import org.mockito.runners.*;
 
 import java.util.*;
 
 import static org.fest.assertions.Assertions.*;
+import static org.mockito.Mockito.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class AllBadgesTest {
-	private AllBadges allBadges = new AllBadges();
+
+	@Mock AllCommits allCommits;
+	@InjectMocks AllBadges allBadges;
 
 	@Test
-	public void should_list_all_badges() throws Exception {
-		List<Badge> badges = allBadges.list();
+	public void should_show_top_committer() throws Exception {
+		when(allCommits.list()).thenReturn(Arrays.asList( //
+				new RepositoryCommit().setAuthor(new User().setLogin("dgageot").setAvatarUrl("https://secure.gravatar.com/avatar/f0887bf6175ba40dca795eb37883a8cf")), //
+				new RepositoryCommit().setAuthor(new User().setLogin("dgageot").setAvatarUrl("https://secure.gravatar.com/avatar/f0887bf6175ba40dca795eb37883a8cf")), //
+				new RepositoryCommit().setAuthor(new User().setLogin("jlm").setAvatarUrl("https://secure.gravatar.com/avatar/f0887bf6175ba40dca795eb37883a8cfkjsdkfj"))));
 
-		assertThat(badges).onProperty("label").containsSequence("Top Committer", "Fatty Committer");
-		assertThat(badges).onProperty("image").containsSequence("/badges/topCommiter.png", "/badges/fatty.png");
-		assertThat(badges).onProperty("gravatarUrl").containsSequence("https://secure.gravatar.com/avatar/649d3668d3ba68e75a3441dec9eac26e", "https://secure.gravatar.com/avatar/649d3668d3ba68e75a3441dec9eac26e");
+		Badge topCommitterBadge = allBadges.list().get(0);
+		assertThat(topCommitterBadge.getGravatarUrl()).isEqualTo("https://secure.gravatar.com/avatar/f0887bf6175ba40dca795eb37883a8cf");
 	}
 }
