@@ -16,7 +16,7 @@ public class AllBadgesTest {
 	@InjectMocks AllBadges allBadges;
 
 	@Test
-	public void should_show_top_committer() throws Exception {
+	public void should_show_top_committer() {
 		when(allCommits.list()).thenReturn(asList(commit("dgageot", "url1"), commit("dgageot", "url1"), commit("jlm", "url2")));
 
 		Badge topCommitter = allBadges.list().get(0);
@@ -24,7 +24,22 @@ public class AllBadgesTest {
 		assertThat(topCommitter.getGravatarUrl()).isEqualTo("url1");
 	}
 
+	@Test
+	public void should_show_fatty_committer() {
+		when(allCommits.list()).thenReturn(asList(commit("jlm", "url2", 100, 0), commit("dgageot", "url1", 0, 100)));
+
+		Badge fattyCommitter = allBadges.list().get(1);
+
+		assertThat(fattyCommitter.getGravatarUrl()).isEqualTo("url2");
+	}
+
 	static RepositoryCommit commit(String login, String avatarUrl) {
-		return new RepositoryCommit().setAuthor(new User().setLogin(login).setAvatarUrl(avatarUrl));
+		return commit(login, avatarUrl, 0, 0);
+	}
+
+	static RepositoryCommit commit(String login, String avatarUrl, int additions, int deletions) {
+		return new RepositoryCommit() //
+				.setAuthor(new User().setLogin(login).setAvatarUrl(avatarUrl)) //
+				.setStats(new CommitStats().setAdditions(additions).setDeletions(deletions));
 	}
 }

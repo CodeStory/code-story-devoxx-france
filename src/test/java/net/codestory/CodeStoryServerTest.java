@@ -89,6 +89,7 @@ public class CodeStoryServerTest {
 
 	static RepositoryCommit commit(String login, String avatarUrl, String message) {
 		return new RepositoryCommit() //
+				.setStats(new CommitStats().setAdditions(0).setDeletions(0)) //
 				.setAuthor(new User().setLogin(login).setAvatarUrl(avatarUrl)) //
 				.setCommitter(new User().setLogin(login).setAvatarUrl(avatarUrl)) //
 				.setCommit(new Commit().setMessage(message).setAuthor(new CommitUser().setDate(new Date())));

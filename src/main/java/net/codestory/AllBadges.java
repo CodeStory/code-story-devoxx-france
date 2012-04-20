@@ -24,7 +24,9 @@ public class AllBadges {
 	}
 
 	private Badge fattyCommitter() {
-		return new Badge("Fatty Committer", "/badges/fatty.png", "https://secure.gravatar.com/avatar/649d3668d3ba68e75a3441dec9eac26e");
+		User fattyCommitter = (User) groovy("commits.findAll { it.stats != null }.max { it.stats.additions - it.stats.deletions }.author ");
+
+		return new Badge("Fatty Committer", "/badges/fatty.png", fattyCommitter.getAvatarUrl());
 	}
 
 	private Object groovy(String script) {
