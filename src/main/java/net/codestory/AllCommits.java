@@ -9,6 +9,7 @@ import org.joda.time.format.*;
 import java.io.*;
 import java.util.*;
 
+import static com.google.common.base.Objects.*;
 import static com.google.common.collect.Lists.*;
 
 public class AllCommits {
@@ -29,24 +30,19 @@ public class AllCommits {
 		}
 	}
 
+	private static final User NULL_USER = new User().setLogin("").setAvatarUrl("");
+	private static final org.eclipse.egit.github.core.Commit NULL_COMMIT_USER = new org.eclipse.egit.github.core.Commit().setAuthor(new CommitUser().setDate(new Date()));
+
 	static Function<RepositoryCommit, Commit> TO_COMMIT = new Function<RepositoryCommit, Commit>() {
+
 		@Override
 		public Commit apply(RepositoryCommit repositoryCommit) {
-			User committer = repositoryCommit.getCommitter();
-			if (committer == null) {
-				committer = new User().setLogin("");
-			}
-			org.eclipse.egit.github.core.Commit commit = repositoryCommit.getCommit();
-			if (commit == null) {
-				commit = new org.eclipse.egit.github.core.Commit().setAuthor(new CommitUser().setDate(new Date()));
-			}
-			String avatarUrl = committer.getAvatarUrl();
-			if (avatarUrl == null) {
-				avatarUrl = "";
-			}
-			return new Commit(//
+			User committer = firstNonNull(repositoryCommit.getCommitter(), NULL_USER);
+			org.eclipse.egit.github.core.Commit commit = firstNonNull(repositoryCommit.getCommit(), NULL_COMMIT_USER);
+
+			return new Commit( //
 					committer.getLogin(), //
-					avatarUrl.split("\\?")[0], //
+					committer.getAvatarUrl().split("\\?")[0], //
 					commit.getMessage(), //
 					format(commit.getAuthor().getDate()) //
 			);
