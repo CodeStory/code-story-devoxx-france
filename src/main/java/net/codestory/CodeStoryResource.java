@@ -66,6 +66,7 @@ public class CodeStoryResource {
 			String avatarUrl = firstNonNull(committer.getAvatarUrl(), "");
 
 			return new Commit(//
+					repositoryCommit.getSha(), //
 					committer.getLogin(), //
 					avatarUrl.split("\\?")[0], //
 					commit.getMessage(), //
