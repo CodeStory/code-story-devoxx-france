@@ -5,6 +5,6 @@ import lombok.*;
 import java.util.*;
 
 @Data
-public class ChangeSet {
+public class ChangesSet {
 	private final List<Item> items;
 }

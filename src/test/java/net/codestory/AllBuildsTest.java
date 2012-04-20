@@ -15,7 +15,7 @@ public class AllBuildsTest {
 
 		assertThat(builds).onProperty("result").contains("UNSTABLE");
 		Build firstBuild = builds.get(0);
-		ChangeSet changeset = firstBuild.getChangeSet();
+		ChangesSet changeset = firstBuild.getChangeSet();
 		List<Item> items = changeset.getItems();
 		Item item = items.get(0);
 		assertThat(item.getCommitId()).hasSize(40);

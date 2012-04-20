@@ -5,5 +5,5 @@ import lombok.*;
 @Data
 public class Build {
 	public final String result;
-	public final ChangeSet changeSet;
+	public final ChangesSet changeSet;
 }
