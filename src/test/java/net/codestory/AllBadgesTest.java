@@ -25,6 +25,7 @@ public class AllBadgesTest {
 				new RepositoryCommit().setAuthor(new User().setLogin("jlm").setAvatarUrl("https://secure.gravatar.com/avatar/f0887bf6175ba40dca795eb37883a8cfkjsdkfj"))));
 
 		Badge topCommitterBadge = allBadges.list().get(0);
+
 		assertThat(topCommitterBadge.getGravatarUrl()).isEqualTo("https://secure.gravatar.com/avatar/f0887bf6175ba40dca795eb37883a8cf");
 	}
 }

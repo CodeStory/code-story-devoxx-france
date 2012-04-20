@@ -1,9 +1,8 @@
 package net.codestory;
 
-import com.google.common.util.concurrent.*;
 import com.google.inject.*;
+import groovy.lang.Binding;
 import groovy.lang.*;
-import org.eclipse.egit.github.core.*;
 
 import java.util.*;
 
@@ -19,23 +18,14 @@ public class AllBadges {
 	}
 
 	private Badge topComitter() {
-		List<RepositoryCommit> list = allCommits.list();
-		// map < gravatarurl, int>
-		AtomicLongMap<String> commitByAuthor = AtomicLongMap.create();
-		for (RepositoryCommit repositoryCommit : list) {
-			commitByAuthor.incrementAndGet(repositoryCommit.getAuthor().getAvatarUrl());
-		}
-		// max ^^
-		long max = 0;
-		String maxAvatarUrl = null;
-		Map<String, Long> commitByAuthorMap = commitByAuthor.asMap();
-		for (String avatarUrl : commitByAuthorMap.keySet()) {
-			if (commitByAuthorMap.get(avatarUrl).longValue() > max) {
-				max = commitByAuthorMap.get(avatarUrl).longValue();
-				maxAvatarUrl = avatarUrl;
-			}
-		}
+		Binding bindings = new Binding();
+		bindings.setVariable("allCommits", allCommits.list());
 
-		return new Badge("Top Committer", "/badges/topCommiter.png", maxAvatarUrl);
+		String script = "allCommits.groupBy { it.author.avatarUrl }.max { it.value.size }.key";
+
+		GroovyShell groovy = new GroovyShell(bindings);
+		String avatarUrl = (String) groovy.evaluate(script);
+
+		return new Badge("Top Committer", "/badges/topCommiter.png", avatarUrl);
 	}
 }

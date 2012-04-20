@@ -65,6 +65,17 @@ public class CodeStoryServerTest {
 
 	@Test
 	public void should_list_badges_as_json() {
+		when(mockAllCommits.list()).thenReturn(asList( //
+				new RepositoryCommit() //
+						.setCommitter(new User().setLogin("").setAvatarUrl("url1")) //
+						.setCommit(new Commit().setMessage("message1") //
+								.setAuthor(new CommitUser().setDate(new Date()))) //
+						.setAuthor(new User().setAvatarUrl("url1")), //
+				new RepositoryCommit() //
+						.setCommitter(new User().setLogin("").setAvatarUrl("url2")) //
+						.setCommit(new Commit().setMessage("message2")) //
+						.setAuthor(new User().setAvatarUrl("url2")))); //
+
 		expect().body("label", hasItems("Top Committer", "Fatty Committer")) //
 				.when().get("/badges");
 	}
