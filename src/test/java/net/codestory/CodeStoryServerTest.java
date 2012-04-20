@@ -2,6 +2,7 @@ package net.codestory;
 
 import com.google.inject.*;
 import com.jayway.restassured.specification.*;
+import net.codestory.jenkins.*;
 import net.gageot.test.rules.*;
 import net.gageot.test.utils.*;
 import org.eclipse.egit.github.core.Commit;
@@ -21,18 +22,24 @@ import static org.mockito.Mockito.*;
 
 public class CodeStoryServerTest {
 	static AllCommits mockAllCommits = mock(AllCommits.class);
+	static AllBuilds mockAllBuilds = mock(AllBuilds.class);
 
 	@ClassRule
 	public static ServiceRule<CodeStoryServer> codeStoryServer = startWithRandomPort(CodeStoryServer.class, new AbstractModule() {
 		@Override
 		protected void configure() {
 			bind(AllCommits.class).toInstance(mockAllCommits);
+			bind(AllBuilds.class).toInstance(mockAllBuilds);
 		}
 	});
 
 	@Before
-	public void setupMocks() {
-		when(mockAllCommits.list()).thenReturn(asList(commit("author1", "url1", "message1"), commit("author2", "url2", "message2")));
+	public void setupMocks() throws IOException {
+		when(mockAllCommits.list()).thenReturn(asList( //
+				commit("sha1", "author1", "url1", "message1"), //
+				commit("sha2", "author2", "url2", "message2")));
+
+		when(mockAllBuilds.list()).thenReturn(asList(new Build("SUCCESS", new ChangesSet(asList(new Item("sha1"))))));
 	}
 
 	@Test
@@ -72,6 +79,12 @@ public class CodeStoryServerTest {
 
 	static boolean jsTest(String jsTest) {
 		return 0 == new Shell().execute(String.format("./mocha.sh %s %d", jsTest, port()));
+	}
+
+	static RepositoryCommit commit(String sha1, String login, String avatarUrl, String message) {
+		RepositoryCommit commit = commit(login, avatarUrl, message);
+		commit.getCommit().setSha(sha1);
+		return commit;
 	}
 
 	static RepositoryCommit commit(String login, String avatarUrl, String message) {

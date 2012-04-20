@@ -70,8 +70,8 @@ public class CodeStoryResource {
 					committer.getLogin(), //
 					avatarUrl.split("\\?")[0], //
 					commit.getMessage(), //
-					DateFormat.format(commit.getAuthor().getDate()) //
-			);
+					DateFormat.format(commit.getAuthor().getDate()), //
+					"SUCCESS");
 		}
 	};
 }
