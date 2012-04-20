@@ -1,6 +1,8 @@
 package net.codestory;
 
 import com.google.common.base.*;
+import com.google.inject.*;
+import com.google.inject.name.*;
 import org.eclipse.egit.github.core.*;
 import org.joda.time.format.*;
 
@@ -10,10 +12,13 @@ import static com.google.common.base.Objects.*;
 import static com.google.common.collect.Lists.*;
 
 public class AllCommits {
-	private static final String USER = "jlm";
-	private static final String PROJECT = "NodeGravatar";
 	private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("dd/MM/yyyy");
-	private final AllGitHubCommits allGitHubCommits = new AllGitHubCommits(USER, PROJECT);
+	private final AllGitHubCommits allGitHubCommits;
+
+	@Inject
+	public AllCommits(@Named("user") String user, @Named("project") String project) {
+		allGitHubCommits = new AllGitHubCommits(user, project);
+	}
 
 	public List<Commit> list() {
 		List<RepositoryCommit> repositoryCommits = allGitHubCommits.fetchCommitFromGitHub();

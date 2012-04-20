@@ -2,6 +2,8 @@ package net.codestory;
 
 import com.google.common.util.concurrent.*;
 import com.google.inject.*;
+import com.google.inject.name.*;
+import com.google.inject.util.*;
 import com.sun.jersey.api.container.httpserver.*;
 import com.sun.jersey.api.core.*;
 import com.sun.jersey.guice.spi.container.*;
@@ -25,7 +27,14 @@ public class CodeStoryServer extends AbstractIdleService {
 	@Override
 	protected void startUp() throws Exception {
 		ResourceConfig config = new DefaultResourceConfig(CodeStoryResource.class, JacksonJsonProvider.class);
-		Injector injector = Guice.createInjector(modules);
+		Modules.OverriddenModuleBuilder codeStoryModule = Modules.override(new AbstractModule() {
+			@Override
+			protected void configure() {
+				bind(String.class).annotatedWith(Names.named("user")).toInstance("dgageot");
+				bind(String.class).annotatedWith(Names.named("project")).toInstance("sonar");
+			}
+		});
+		Injector injector = Guice.createInjector(codeStoryModule.with(modules));
 		GuiceComponentProviderFactory ioc = new GuiceComponentProviderFactory(config, injector);
 
 		httpServer = HttpServerFactory.create("http://localhost:" + port + "/", config, ioc);
