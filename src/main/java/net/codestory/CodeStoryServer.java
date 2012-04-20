@@ -51,7 +51,7 @@ public class CodeStoryServer extends AbstractIdleService {
 	static class CodeStoryModule extends AbstractModule {
 		@Override
 		protected void configure() {
-			bind(AllCommits.class).toInstance(new AllCommits("dgageot", "sonar"));
+			bind(AllCommits.class).toInstance(new AllCommits("jlm", "NodeGravatar"));
 		}
 	}
 }
