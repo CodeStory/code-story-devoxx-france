@@ -1,8 +1,6 @@
 package net.codestory;
 
 import com.google.common.base.*;
-import com.google.inject.*;
-import com.google.inject.name.*;
 import org.eclipse.egit.github.core.*;
 import org.joda.time.format.*;
 
@@ -15,8 +13,7 @@ public class AllCommits {
 	private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("dd/MM/yyyy");
 	private final AllGitHubCommits allGitHubCommits;
 
-	@Inject
-	public AllCommits(@Named("user") String user, @Named("project") String project) {
+	public AllCommits(String user, String project) {
 		allGitHubCommits = new AllGitHubCommits(user, project);
 	}
 

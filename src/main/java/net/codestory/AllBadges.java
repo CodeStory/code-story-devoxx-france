@@ -11,8 +11,7 @@ public class AllBadges {
 			new Badge("Top Committer", "TopCommitter.png"), //
 			new Badge("Fatty Committer", "FattyCommitter.png"));
 
-	@Inject
-	private AllCommits allCommits;
+	@Inject AllCommits allCommits;
 
 	public List<Badge> list() {
 		return badges;
