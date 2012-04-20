@@ -7,7 +7,7 @@ import java.util.*;
 import static org.fest.assertions.Assertions.*;
 
 public class AllBadgesTest {
-	private AllBadges allBadges;
+	private AllBadges allBadges = new AllBadges();
 
 	@Test
 	public void should_list_all_badges() throws Exception {

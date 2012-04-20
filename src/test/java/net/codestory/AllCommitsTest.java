@@ -8,7 +8,7 @@ import java.util.*;
 import static org.fest.assertions.Assertions.*;
 
 public class AllCommitsTest {
-	AllCommits allCommits = new AllCommits();
+	AllCommits allCommits = new AllCommits("jlm", "NodeGravatar");
 
 	@Test
 	public void should_display_first_commit() {
