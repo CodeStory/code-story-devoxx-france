@@ -8,13 +8,16 @@
 <body>
 <h1 id="project-name">CodeStory</h1>
 
+<div id="header"></div>
+
 <div id="commits">
 	<script type="text/x-template" id="commit-template">
 		{{#commit}}
-		<div class="commit">{{author}}
+		<div class="commit">
+			<img src="{{gravatarUrl}}"/>
+
 			<div class="date">{{date}}</div>
 			<div class="message">{{message}}</div>
-			<img src="{{gravatarUrl}}"/>
 		</div>
 		{{/commit}}
 	</script>

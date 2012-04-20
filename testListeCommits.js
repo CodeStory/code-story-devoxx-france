@@ -13,9 +13,6 @@ test("Checking Page Title", function (done) {
 
 test("Checking Commits", function (done) {
         Browser.visit(home, function (e, browser) {
-            expect(browser.query("#commits .commit:nth-child(1):contains('author1')")).to.be.ok();
-            expect(browser.query("#commits .commit:nth-child(2):contains('author2')")).to.be.ok();
-
             expect(browser.query("#commits .commit:nth-child(1) .message:contains('message1')")).to.be.ok();
             expect(browser.query("#commits .commit:nth-child(2) .message:contains('message2')")).to.be.ok();
 

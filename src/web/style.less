@@ -4,4 +4,51 @@ body {
 	background: url('background-close-stars.png'), url('background-middle-stars.png'), url('background-far-stars.png'), url('background-repeat.png');
 	color: @texte;
 	font-family: 'Helvetica', sans-serif;
+
+	#header {
+		position: fixed;
+		top: 0;
+		background: url('header.png') no-repeat, -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 1.0)), to(rgba(0, 0, 0, 0)));
+		width: 100%;
+		height: 300px;
+	}
+
+	#commits {
+		margin-top: 300px;
+		margin-left: 300px;
+		width: 600px;
+
+		.commit {
+			width: 300px;
+			height: 100px;
+			float: left;
+
+			.date {
+				color: grey;
+			}
+		}
+	}
 }
+
+.commit:nth-child(odd) {
+	.date, .message, img {
+		float: right;
+	}
+
+	.date, .message {
+		padding-right: 10px;
+	}
+}
+
+.commit:nth-child(even) {
+	margin-top: 50px;
+
+	.date, .message, img {
+		float: left;
+	}
+
+	.date, .message {
+		padding-left: 10px;
+	}
+}
+
