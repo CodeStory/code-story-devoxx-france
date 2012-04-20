@@ -1,5 +1,6 @@
 package net.codestory;
 
+import org.eclipse.egit.github.core.*;
 import org.junit.*;
 
 import java.util.*;
@@ -19,5 +20,14 @@ public class AllCommitsTest {
 		assertThat(commits).onProperty("gravatarUrl").containsSequence(JL_GRAVATAR, JL_GRAVATAR, JL_GRAVATAR, DAVID_GRAVATAR);
 		assertThat(commits).onProperty("message").containsSequence("Update README.md", "removing file extensiosn", "Adding the right pictures", "Unused file");
 		assertThat(commits).onProperty("date").containsSequence("19/04/2012", "29/03/2012", "29/03/2012", "29/03/2012");
+	}
+
+	@Test
+	public void should_work_with_a_commit_without_commiter() {
+		RepositoryCommit repositoryCommit = new RepositoryCommit();
+
+		Commit commit = AllCommits.TO_COMMIT.apply(repositoryCommit);
+
+		assertThat(commit.getAuthor()).isEqualTo("");
 	}
 }

@@ -22,21 +22,33 @@ public class AllCommits {
 		RepositoryService repository = new RepositoryService(githubClient);
 
 		try {
-			return transform(commits.getCommits(repository.getRepository(USER, PROJECT)), TO_COMMIT);
-
+			List<RepositoryCommit> githubCommits = commits.getCommits(repository.getRepository(USER, PROJECT));
+			return transform(githubCommits, TO_COMMIT);
 		} catch (IOException e) {
 			throw Throwables.propagate(e);
 		}
 	}
 
-	private static Function<RepositoryCommit, Commit> TO_COMMIT = new Function<RepositoryCommit, Commit>() {
+	static Function<RepositoryCommit, Commit> TO_COMMIT = new Function<RepositoryCommit, Commit>() {
 		@Override
 		public Commit apply(RepositoryCommit repositoryCommit) {
+			User committer = repositoryCommit.getCommitter();
+			if (committer == null) {
+				committer = new User().setLogin("");
+			}
+			org.eclipse.egit.github.core.Commit commit = repositoryCommit.getCommit();
+			if (commit == null) {
+				commit = new org.eclipse.egit.github.core.Commit().setAuthor(new CommitUser().setDate(new Date()));
+			}
+			String avatarUrl = committer.getAvatarUrl();
+			if (avatarUrl == null) {
+				avatarUrl = "";
+			}
 			return new Commit(//
-					repositoryCommit.getCommitter().getLogin(), //
-					repositoryCommit.getCommitter().getAvatarUrl().split("\\?")[0], //
-					repositoryCommit.getCommit().getMessage(), //
-					format(repositoryCommit.getCommit().getAuthor().getDate()) //
+					committer.getLogin(), //
+					avatarUrl.split("\\?")[0], //
+					commit.getMessage(), //
+					format(commit.getAuthor().getDate()) //
 			);
 		}
 
