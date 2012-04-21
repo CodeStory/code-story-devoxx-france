@@ -35,10 +35,13 @@ test("Checking project name", function (done) {
 test("Checking badges", function (done) {
     Browser.visit(home, function (e, browser) {
         expect(browser.query("#badges .badge:nth-child(1) p:contains('Top Committer')")).to.be.ok();
-        expect(browser.query("#badges .badge:nth-child(2) p:contains('Fatty Committer')")).to.be.ok();
+        expect(browser.query("#badges .badge:nth-child(1) img[src='/badges/top.png']")).to.be.ok();
 
-        expect(browser.query("#badges .badge:nth-child(1) img[src='/badges/topCommiter.png']")).to.be.ok();
+        expect(browser.query("#badges .badge:nth-child(2) p:contains('Fatty Committer')")).to.be.ok();
         expect(browser.query("#badges .badge:nth-child(2) img[src='/badges/fatty.png']")).to.be.ok();
+
+        expect(browser.query("#badges .badge:nth-child(3) p:contains('Verbose Committer')")).to.be.ok();
+        expect(browser.query("#badges .badge:nth-child(3) img[src='/badges/verbose.png']")).to.be.ok();
 
         done();
     });

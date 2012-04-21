@@ -14,7 +14,7 @@ import java.util.*;
 
 import static com.jayway.restassured.RestAssured.*;
 import static groovyx.net.http.ContentType.*;
-import static java.lang.String.format;
+import static java.lang.String.*;
 import static java.util.Arrays.*;
 import static net.gageot.test.rules.ServiceRule.*;
 import static org.fest.assertions.Assertions.*;
@@ -80,7 +80,7 @@ public class CodeStoryServerTest {
 	}
 
 	static boolean jsTest(String jsTest) {
-		return 0 == new Shell().execute(format("./mocha.sh %s %d", jsTest, port()));
+		return 0 == new Shell().execute(format("./mocha.sh src/test/resources/%s %d", jsTest, port()));
 	}
 
 	static Build build(String result, String sha1) {

@@ -10,25 +10,29 @@ import java.util.*;
 
 import static com.google.common.base.Predicates.*;
 import static com.google.common.collect.ImmutableMap.*;
+import static java.util.Arrays.asList;
 import static net.gageot.listmaker.ListMaker.*;
 
 public class AllBadges {
 	@Inject AllCommits allCommits;
 
 	public List<Badge> list() {
-		return with(topCommitter(), fattyCommitter()).exclude(isNull()).toList();
+		return excludeNullBadges(asList( //
+				badge(topCommitter(), "Top Committer", "top.png"), //
+				badge(fattyCommitter(), "Fatty Committer", "fatty.png"), //
+				badge(verboseCommitter(), "Verbose Committer", "verbose.png")));
 	}
 
-	Badge topCommitter() {
-		User user = (User) groovy("(commits.groupBy { it?.author?.login }.findAll { it.key != null }.max { it.value.size }?.value ?: [])[0]?.author");
-
-		return badge(user, "Top Committer", "/badges/topCommiter.png");
+	User topCommitter() {
+		return (User) groovy("(commits.groupBy { it.author?.login }.findAll { it.key != null }.max { it.value.size }?.value ?: [])[0]?.author");
 	}
 
-	Badge fattyCommitter() {
-		User user = (User) groovy("commits.findAll { it.stats != null }.max { it.stats.additions - it.stats.deletions }?.author ");
+	User fattyCommitter() {
+		return (User) groovy("commits.findAll { it.stats != null }.max { it.stats.additions - it.stats.deletions }?.author ");
+	}
 
-		return badge(user, "Fatty Committer", "/badges/fatty.png");
+	User verboseCommitter() {
+		return (User) groovy("commits.max { it.commit?.message ?: '' }?.author");
 	}
 
 	Object groovy(String script) {
@@ -37,7 +41,11 @@ public class AllBadges {
 		return new GroovyShell(bindings).evaluate(script);
 	}
 
-	Badge badge(User user, String label, String image) {
-		return user == null ? null : new Badge(label, image, user.getAvatarUrl());
+	static Badge badge(User user, String label, String image) {
+		return user == null ? null : new Badge(label, "/badges/" + image, user.getAvatarUrl());
+	}
+
+	static List<Badge> excludeNullBadges(List<Badge> badges) {
+		return with(badges).exclude(isNull()).toList();
 	}
 }
