@@ -5,22 +5,27 @@ import org.junit.*;
 
 import java.util.*;
 
+import static net.codestory.DateFormat.*;
 import static org.fest.assertions.Assertions.*;
 
 public class AllCommitsTest {
-	AllCommits allCommits = new AllCommits("jlm", "NodeGravatar");
+	AllCommits allCommits = new AllCommits("dgageot", "NodeGravatar");
 
 	@Test
-	public void should_display_first_commit() {
+	public void should_list_commits() {
 		List<RepositoryCommit> commits = allCommits.list();
 
-		assertThat(commits).hasSize(11);
-		RepositoryCommit firstCommit = commits.get(0);
+		assertThat(commits).hasSize(10);
+	}
 
-		assertThat(firstCommit.getSha()).isEqualTo("fb26b2a6957f46bd00c9b4159622610a8aca57bd");
-		assertThat(firstCommit.getAuthor().getLogin()).isEqualTo("jlm");
+	@Test
+	public void should_get_first_commit() {
+		RepositoryCommit firstCommit = allCommits.list().get(0);
+
+		assertThat(firstCommit.getSha()).isEqualTo("710ff33fed6d4b295f9e792bcf722c622a51d2f0");
+		assertThat(firstCommit.getAuthor().getLogin()).isEqualTo("jeanlaurent");
 		assertThat(firstCommit.getAuthor().getAvatarUrl()).contains("https://secure.gravatar.com/avatar/649d3668d3ba68e75a3441dec9eac26e");
-		assertThat(firstCommit.getCommit().getMessage()).isEqualTo("Update README.md");
-		assertThat(DateFormat.format(firstCommit.getCommit().getAuthor().getDate())).isEqualTo("19/04/2012");
+		assertThat(firstCommit.getCommit().getMessage()).isEqualTo("removing file extensiosn");
+		assertThat(format(firstCommit.getCommit().getAuthor().getDate())).isEqualTo("29/03/2012");
 	}
 }

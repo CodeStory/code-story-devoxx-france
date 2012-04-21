@@ -1,20 +1,30 @@
 package net.codestory.jenkins;
 
-import com.google.common.base.*;
-import com.google.common.io.*;
 import com.google.gson.*;
 
 import java.io.*;
-import java.net.*;
 import java.util.*;
 
+import static com.google.common.io.Closeables.*;
+
 public class AllBuilds {
+	// http://jenkins.code-story.net:8888/job/CodeStory/api/json?depth=1
+	private static final String API_URL = "src/test/resources/builds.json";
+
 	public List<Build> list() throws IOException {
-		URL url = new URL("http://jenkins.code-story.net:8888/job/CodeStory/api/json?depth=1");
-		String json = Resources.toString(url, Charsets.UTF_8);
+		FileReader reader = null;
+		try {
+			reader = new FileReader(API_URL);
 
-		Builds builds = new Gson().fromJson(json, Builds.class);
+			return parseJson(reader);
+		} finally {
+			closeQuietly(reader);
+		}
+	}
 
-		return builds.getBuild();
+	private static List<Build> parseJson(FileReader reader) {
+		Builds builds = new Gson().fromJson(reader, Builds.class);
+
+		return builds.getBuilds();
 	}
 }

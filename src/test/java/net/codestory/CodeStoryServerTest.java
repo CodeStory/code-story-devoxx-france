@@ -43,25 +43,25 @@ public class CodeStoryServerTest {
 	}
 
 	@Test
-	public void should_list_commits_as_json() {
-		expect().body("author", hasItems("author1", "author2")).contentType(JSON) //
-				.when().get("/commits");
-	}
-
-	@Test
 	public void should_show_home_page() {
 		assertThat(jsTest("testHomePage.js")).isTrue();
 	}
 
 	@Test
+	public void should_list_commits_as_json() {
+		expect().contentType(JSON).body("author", hasItems("author1", "author2")) //
+				.when().get("/commits");
+	}
+
+	@Test
 	public void should_list_badges_as_json() {
-		expect().body("label", hasItems("Top Committer", "Fatty Committer")) //
+		expect().contentType(JSON).body("label", hasItems("Top Committer", "Fatty Committer")) //
 				.when().get("/badges");
 	}
 
 	@Test
 	public void should_serve_style_as_less() throws IOException {
-		expect().content(containsString("body")) //
+		expect().contentType(TEXT).content(containsString("body")) //
 				.when().get("/style.less");
 	}
 
@@ -73,7 +73,7 @@ public class CodeStoryServerTest {
 
 	@Test
 	public void should_serve_favicon() {
-		expect().statusCode(200) //
+		expect().contentType(BINARY).statusCode(200) //
 				.when().get("/fusee-16x16.png");
 	}
 
@@ -82,17 +82,11 @@ public class CodeStoryServerTest {
 	}
 
 	static RepositoryCommit commit(String sha1, String login, String avatarUrl, String message) {
-		RepositoryCommit commit = commit(login, avatarUrl, message);
-		commit.getCommit().setSha(sha1);
-		return commit;
-	}
-
-	static RepositoryCommit commit(String login, String avatarUrl, String message) {
 		return new RepositoryCommit() //
 				.setStats(new CommitStats().setAdditions(0).setDeletions(0)) //
 				.setAuthor(new User().setLogin(login).setAvatarUrl(avatarUrl)) //
 				.setCommitter(new User().setLogin(login).setAvatarUrl(avatarUrl)) //
-				.setCommit(new Commit().setMessage(message).setAuthor(new CommitUser().setDate(new Date())));
+				.setCommit(new Commit().setSha(sha1).setMessage(message).setAuthor(new CommitUser().setDate(new Date())));
 	}
 
 	static int port() {

@@ -15,6 +15,7 @@ import java.util.*;
 
 import static com.google.common.base.Objects.*;
 import static com.google.common.collect.Lists.*;
+import static net.codestory.DateFormat.*;
 
 @Path("/")
 public class CodeStoryResource {
@@ -65,13 +66,13 @@ public class CodeStoryResource {
 			commit.setAuthor(firstNonNull(commit.getAuthor(), new CommitUser().setDate(new Date())));
 			String avatarUrl = firstNonNull(committer.getAvatarUrl(), "");
 
-			return new Commit(//
+			return new Commit( //
 					repositoryCommit.getSha(), //
 					committer.getLogin(), //
 					avatarUrl.split("\\?")[0], //
 					commit.getMessage(), //
-					DateFormat.format(commit.getAuthor().getDate()), //
-					commit.getSha().isEmpty() ? "FAILURE" : "SUCCESS");
+					format(commit.getAuthor().getDate()), //
+					firstNonNull(commit.getSha(), "UNKNOWN").isEmpty() ? "FAILURE" : "SUCCESS");
 		}
 	};
 }

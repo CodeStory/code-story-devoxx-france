@@ -7,26 +7,33 @@ import org.eclipse.egit.github.core.*;
 
 import java.util.*;
 
+import static com.google.common.base.Predicates.*;
 import static com.google.common.collect.ImmutableMap.*;
-import static java.util.Arrays.*;
+import static net.gageot.listmaker.ListMaker.*;
 
 public class AllBadges {
 	@Inject AllCommits allCommits;
 
 	public List<Badge> list() {
-		return asList(topCommitter(), fattyCommitter());
+		return with(topCommitter(), fattyCommitter()).exclude(isNull()).toList();
 	}
 
-	private Badge topCommitter() {
-		User topCommitter = (User) groovy("commits.findAll { it.author.login != null }.groupBy { it.author.login }.max { it.value.size }.value[0].author");
+	Badge topCommitter() {
+		User user = (User) groovy("(commits.groupBy { it?.author?.login }.findAll { it.key != null }.max { it.value.size }?.value ?: [])[0]?.author");
+		if (user == null) {
+			return null;
+		}
 
-		return new Badge("Top Committer", "/badges/topCommiter.png", topCommitter.getAvatarUrl());
+		return new Badge("Top Committer", "/badges/topCommiter.png", user.getAvatarUrl());
 	}
 
-	private Badge fattyCommitter() {
-		User fattyCommitter = (User) groovy("commits.findAll { it.stats != null }.max { it.stats.additions - it.stats.deletions }.author ");
+	Badge fattyCommitter() {
+		User user = (User) groovy("commits.findAll { it.stats != null }.max { it.stats.additions - it.stats.deletions }?.author ");
+		if (user == null) {
+			return null;
+		}
 
-		return new Badge("Fatty Committer", "/badges/fatty.png", fattyCommitter.getAvatarUrl());
+		return new Badge("Fatty Committer", "/badges/fatty.png", user.getAvatarUrl());
 	}
 
 	private Object groovy(String script) {
