@@ -2,8 +2,9 @@
 <html>
 <head>
 	<title>CodeStory - HomePage</title>
-	<link rel="shortcut icon" type="image/png" href="fusee-16x16.png"/>
-	<link type="text/css" rel="stylesheet" href="style.less"/>
+	<link type='image/png' rel='shortcut icon' href='fusee-16x16.png'/>
+	<link type='text/css' rel='stylesheet' href='style.less'>
+	<link type='text/css' rel='stylesheet' href='http://fonts.googleapis.com/css?family=Oxygen'>
 </head>
 <body>
 <h2>CodeStory</h2>
@@ -14,7 +15,7 @@
 	<div id="commits">
 		Loading commits...
 		<script type="text/x-template" id="commit-template">
-			{{#commit}}
+			{{#.}}
 			<div class="commit">
 				<img class="portrait {{status}}" src="{{gravatarUrl}}"/>
 
@@ -23,24 +24,22 @@
 					<p>{{message}}</p>
 				</div>
 			</div>
-			{{/commit}}
+			{{/.}}
 		</script>
 	</div>
 	<div id="badges">
 		Loading badges...
 		<script type="text/x-template" id="badges-template">
-			{{#badges}}
+			{{#.}}
 			<div class="badge">
 				<p>{{label}}</p>
 
-				<div class="portrait">
-					<img src="{{gravatarUrl}}"/></p>
-				</div>
+				<img class="portrait" src="{{gravatarUrl}}"/>
 
 				<div class="separator"></div>
 				<img class="icon" src="{{image}}"/>
 			</div>
-			{{/badges}}
+			{{/.}}
 		</script>
 	</div>
 </div>
@@ -53,15 +52,11 @@
 </script>
 <script>
 	$.getJSON('commits', function (json) {
-		$("#commits").html(Mustache.to_html($('#commit-template').html(), {commit:json}));
-	})
-</script>
-<script>
+		$("#commits").html(Mustache.to_html($('#commit-template').html(), json));
+	});
 	$.getJSON('badges', function (json) {
-		$("#badges").html(Mustache.to_html($('#badges-template').html(), {badges:json}));
-	})
-</script>
-<script>
+		$("#badges").html(Mustache.to_html($('#badges-template').html(), json));
+	});
 	$(function () {
 		var previousScrollTop, currentScrollTop, yPosition = 0;
 		$(window).scroll(function (e) {
