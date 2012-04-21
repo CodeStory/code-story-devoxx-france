@@ -64,18 +64,18 @@ public class CodeStoryResource {
 	static Function<RepositoryCommit, Commit> TO_COMMIT = new Function<RepositoryCommit, Commit>() {
 		@Override
 		public Commit apply(RepositoryCommit githubCommit) {
-			User committer = firstNonNull(githubCommit.getCommitter(), new User().setLogin(""));
-			org.eclipse.egit.github.core.Commit commit = firstNonNull(githubCommit.getCommit(), new org.eclipse.egit.github.core.Commit());
-			commit.setAuthor(firstNonNull(commit.getAuthor(), new CommitUser().setDate(new Date())));
-			String avatarUrl = firstNonNull(committer.getAvatarUrl(), "");
+			User author = firstNonNull(githubCommit.getAuthor(), new User().setLogin(""));
+			String avatarUrl = firstNonNull(author.getAvatarUrl(), "");
+			String sha1 = firstNonNull(githubCommit.getSha(), "UNKNOWN");
+			org.eclipse.egit.github.core.Commit commit = firstNonNull(githubCommit.getCommit(), new org.eclipse.egit.github.core.Commit().setCommitter(new CommitUser().setDate(new Date())));
 
 			return new Commit( //
 					githubCommit.getSha(), //
-					committer.getLogin(), //
+					author.getLogin(), //
 					avatarUrl.split("\\?")[0], //
 					commit.getMessage(), //
 					format(commit.getAuthor().getDate()), //
-					firstNonNull(commit.getSha(), "UNKNOWN").isEmpty() ? "FAILURE" : "SUCCESS");
+					sha1.isEmpty() ? "FAILURE" : "SUCCESS");
 		}
 	};
 }

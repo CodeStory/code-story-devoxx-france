@@ -89,10 +89,10 @@ public class CodeStoryServerTest {
 
 	static RepositoryCommit commit(String sha1, String login, String avatarUrl, String message) {
 		return new RepositoryCommit() //
-				.setStats(new CommitStats().setAdditions(0).setDeletions(0)) //
+				.setSha(sha1) //
+				.setStats(new CommitStats()) //
 				.setAuthor(new User().setLogin(login).setAvatarUrl(avatarUrl)) //
-				.setCommitter(new User().setLogin(login).setAvatarUrl(avatarUrl)) //
-				.setCommit(new Commit().setSha(sha1).setMessage(message).setAuthor(new CommitUser().setDate(new Date())));
+				.setCommit(new Commit().setMessage(message).setAuthor(new CommitUser().setDate(new Date())));
 	}
 
 	static int port() {
