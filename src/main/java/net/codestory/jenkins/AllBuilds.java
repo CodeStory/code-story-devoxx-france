@@ -1,5 +1,6 @@
 package net.codestory.jenkins;
 
+import com.google.common.base.*;
 import com.google.gson.*;
 
 import java.io.*;
@@ -11,12 +12,14 @@ public class AllBuilds {
 	// http://jenkins.code-story.net:8888/job/CodeStory/api/json?depth=1
 	private static final String API_URL = "src/test/resources/builds.json";
 
-	public List<Build> list() throws IOException {
+	public List<Build> list() {
 		FileReader reader = null;
 		try {
 			reader = new FileReader(API_URL);
 
 			return parseJson(reader);
+		} catch (IOException e) {
+			throw Throwables.propagate(e);
 		} finally {
 			closeQuietly(reader);
 		}

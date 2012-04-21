@@ -1,8 +1,9 @@
-package net.codestory;
+package net.codestory.badges;
 
 import com.google.inject.*;
 import groovy.lang.Binding;
 import groovy.lang.*;
+import net.codestory.github.*;
 import org.eclipse.egit.github.core.*;
 
 import java.util.*;
@@ -20,25 +21,23 @@ public class AllBadges {
 
 	Badge topCommitter() {
 		User user = (User) groovy("(commits.groupBy { it?.author?.login }.findAll { it.key != null }.max { it.value.size }?.value ?: [])[0]?.author");
-		if (user == null) {
-			return null;
-		}
 
-		return new Badge("Top Committer", "/badges/topCommiter.png", user.getAvatarUrl());
+		return badge(user, "Top Committer", "/badges/topCommiter.png");
 	}
 
 	Badge fattyCommitter() {
 		User user = (User) groovy("commits.findAll { it.stats != null }.max { it.stats.additions - it.stats.deletions }?.author ");
-		if (user == null) {
-			return null;
-		}
 
-		return new Badge("Fatty Committer", "/badges/fatty.png", user.getAvatarUrl());
+		return badge(user, "Fatty Committer", "/badges/fatty.png");
 	}
 
-	private Object groovy(String script) {
+	Object groovy(String script) {
 		Binding bindings = new Binding(of("commits", allCommits.list()));
 
 		return new GroovyShell(bindings).evaluate(script);
+	}
+
+	Badge badge(User user, String label, String image) {
+		return user == null ? null : new Badge(label, image, user.getAvatarUrl());
 	}
 }

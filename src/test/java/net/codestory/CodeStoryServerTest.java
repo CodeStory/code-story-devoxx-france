@@ -2,6 +2,7 @@ package net.codestory;
 
 import com.google.inject.*;
 import com.jayway.restassured.specification.*;
+import net.codestory.github.*;
 import net.codestory.jenkins.*;
 import net.gageot.test.rules.*;
 import net.gageot.test.utils.*;
@@ -9,11 +10,11 @@ import org.eclipse.egit.github.core.Commit;
 import org.eclipse.egit.github.core.*;
 import org.junit.*;
 
-import java.io.*;
 import java.util.*;
 
 import static com.jayway.restassured.RestAssured.*;
 import static groovyx.net.http.ContentType.*;
+import static java.lang.String.format;
 import static java.util.Arrays.*;
 import static net.gageot.test.rules.ServiceRule.*;
 import static org.fest.assertions.Assertions.*;
@@ -34,12 +35,13 @@ public class CodeStoryServerTest {
 	});
 
 	@Before
-	public void setupMocks() throws IOException {
+	public void setupMocks() {
 		when(mockAllCommits.list()).thenReturn(asList( //
 				commit("sha1", "author1", "url1", "message1"), //
 				commit("", "author2", "url2", "message2")));
 
-		when(mockAllBuilds.list()).thenReturn(asList(new Build("SUCCESS", new ChangesSet(asList(new Item("sha1"))))));
+		when(mockAllBuilds.list()).thenReturn(asList( //
+				build("SUCCESS", "sha1")));
 	}
 
 	@Test
@@ -60,15 +62,9 @@ public class CodeStoryServerTest {
 	}
 
 	@Test
-	public void should_serve_style_as_less() throws IOException {
+	public void should_serve_style_as_less() {
 		expect().contentType(TEXT).content(containsString("body")) //
 				.when().get("/style.less");
-	}
-
-	@Test
-	public void should_return_a_404() {
-		expect().statusCode(404) //
-				.when().get("/foobar");
 	}
 
 	@Test
@@ -77,8 +73,18 @@ public class CodeStoryServerTest {
 				.when().get("/fusee-16x16.png");
 	}
 
+	@Test
+	public void should_return_a_404() {
+		expect().statusCode(404) //
+				.when().get("/not_found");
+	}
+
 	static boolean jsTest(String jsTest) {
-		return 0 == new Shell().execute(String.format("./mocha.sh %s %d", jsTest, port()));
+		return 0 == new Shell().execute(format("./mocha.sh %s %d", jsTest, port()));
+	}
+
+	static Build build(String result, String sha1) {
+		return new Build(result, new ChangesSet(asList(new Item(sha1))));
 	}
 
 	static RepositoryCommit commit(String sha1, String login, String avatarUrl, String message) {

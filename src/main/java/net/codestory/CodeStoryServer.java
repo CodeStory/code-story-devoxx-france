@@ -7,6 +7,7 @@ import com.sun.jersey.api.core.*;
 import com.sun.jersey.core.spi.component.ioc.*;
 import com.sun.jersey.guice.spi.container.*;
 import com.sun.net.httpserver.*;
+import net.codestory.github.*;
 import org.codehaus.jackson.jaxrs.*;
 
 import static com.google.inject.Guice.*;
@@ -22,7 +23,7 @@ public class CodeStoryServer extends AbstractIdleService {
 		this.modules = modules;
 	}
 
-	public int getPort() {
+	int getPort() {
 		return port;
 	}
 

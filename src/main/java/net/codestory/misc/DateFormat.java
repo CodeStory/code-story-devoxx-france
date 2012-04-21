@@ -1,4 +1,4 @@
-package net.codestory;
+package net.codestory.misc;
 
 import org.joda.time.format.*;
 

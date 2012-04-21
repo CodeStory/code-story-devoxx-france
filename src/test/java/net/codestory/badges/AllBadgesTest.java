@@ -1,5 +1,6 @@
-package net.codestory;
+package net.codestory.badges;
 
+import net.codestory.github.*;
 import org.eclipse.egit.github.core.*;
 import org.junit.*;
 import org.junit.runner.*;
@@ -36,7 +37,7 @@ public class AllBadgesTest {
 	}
 
 	@Test
-	public void should_show_top_committer_with_partial_commit() {
+	public void should_show_top_committer_with_empty_commit() {
 		when(allCommits.list()).thenReturn(asList(commit(), commit(), commit("jlm", "url2")));
 
 		Badge topCommitter = allBadges.topCommitter();
@@ -63,7 +64,7 @@ public class AllBadgesTest {
 	}
 
 	@Test
-	public void should_show_fatty_committer_with_partial_commit() {
+	public void should_show_fatty_committer_with_empty_commit() {
 		when(allCommits.list()).thenReturn(asList(commit(), commit("dgageot", "url1", 0, 100)));
 
 		Badge fattyCommitter = allBadges.fattyCommitter();
