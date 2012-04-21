@@ -22,11 +22,16 @@ body {
 	background-repeat: repeat, repeat, repeat, repeat;
 }
 
+.gradient {
+	background-image: url('header.png'), -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));
+	background-image: url('header.png'), -moz-linear-gradient(top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+	background-repeat: no-repeat, no-repeat;
+}
+
 #header {
 	position: fixed;
 	height: 300px;
-	background-image: url('header.png'), -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));
-	background-repeat: no-repeat, no-repeat;
+	.gradient();
 	width: 100%;
 }
 
@@ -81,7 +86,7 @@ h2 {
 #badges {
 	top: 150px;
 	background: url('project-background.png') repeat-y center;
-	background-size: 300px 1px;
+	background-size: 300px 2px;
 	min-height: 2000px;
 	border-radius: 10px;
 
