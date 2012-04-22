@@ -46,7 +46,9 @@ public class CodeStoryServer extends AbstractIdleService {
 	}
 
 	public static void main(String[] args) {
-		new CodeStoryServer(8080).startAndWait();
+		int port = Integer.valueOf(System.getenv("PORT"));
+
+		new CodeStoryServer(port).startAndWait();
 	}
 
 	static class CodeStoryModule extends AbstractModule {

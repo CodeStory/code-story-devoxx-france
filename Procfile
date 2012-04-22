@@ -1,0 +1,1 @@
+web:	java -cp target/classes:target/lib/* net.codestory.CodeStoryServer
