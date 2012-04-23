@@ -8,11 +8,13 @@ import com.sun.jersey.api.core.*;
 import com.sun.jersey.core.spi.component.ioc.*;
 import com.sun.jersey.guice.spi.container.*;
 import com.sun.net.httpserver.*;
+import net.codestory.cache.*;
 import net.codestory.github.*;
 import org.codehaus.jackson.jaxrs.*;
 
 import static com.google.common.base.Objects.*;
 import static com.google.inject.Guice.*;
+import static com.google.inject.matcher.Matchers.*;
 import static com.google.inject.util.Modules.*;
 import static java.lang.Integer.*;
 
@@ -59,6 +61,7 @@ public class CodeStoryServer extends AbstractIdleService {
 		@Override
 		protected void configure() {
 			bind(AllCommits.class).toInstance(new AllCommits("dgageot", "NodeGravatar"));
+			bindInterceptor(any(), annotatedWith(Cached.class), new CacheInterceptor());
 		}
 	}
 }
