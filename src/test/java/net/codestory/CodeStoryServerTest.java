@@ -1,8 +1,6 @@
 package net.codestory;
 
-import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
-import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.*;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.google.common.io.Files;
 import com.google.inject.AbstractModule;
@@ -20,6 +18,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Date;
 
@@ -92,7 +91,12 @@ public class CodeStoryServerTest {
 				.when().get("/not_found");
 	}
 
-
+	@Test(expected = FailingHttpStatusCodeException.class)
+	public void check_404() throws IOException, InterruptedException {
+		String pageUrl = "http://localhost:" + port() + "/%2E%2E/pom.xml";
+		webClient.getPage(new URL(pageUrl));
+		//System.out.println(page.getWebResponse().getContentAsString());
+	}
 
 	@Test
 	public void html_good_title() throws IOException {

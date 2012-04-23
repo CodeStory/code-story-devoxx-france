@@ -22,6 +22,8 @@ import static net.gageot.listmaker.ListMaker.*;
 
 @Path("/")
 public class CodeStoryResource {
+	public static final String ROOT_PATH = new File("web").getAbsolutePath();
+
 	@Inject AllCommits allCommits;
 	@Inject AllBadges allBadges;
 
@@ -47,19 +49,29 @@ public class CodeStoryResource {
 	@GET
 	@Path("{path : .*\\.less}")
 	public String style(@PathParam("path") String path) throws IOException, LessException {
-		return new LessCompiler().compile(new File("web", path));
+		File file = new File(ROOT_PATH, path);
+		checkPath(file);
+		return new LessCompiler().compile(file);
 	}
 
 	@GET
 	@Path("{path : .*}")
 	public Response staticResource(@PathParam("path") String path) {
-		File file = new File("web", path);
-		if (!file.exists()) {
-			throw new NotFoundException();
-		}
+		File file = new File(ROOT_PATH, path);
+		checkPath(file);
 		String mimeType = new MimetypesFileTypeMap().getContentType(file);
 		buildCacheControl();
 		return Response.ok(file, mimeType).cacheControl(buildCacheControl()).lastModified(new Date()).build();
+	}
+
+	private void checkPath(File file) throws NotFoundException {
+		try {
+			if (!file.getCanonicalPath().startsWith(ROOT_PATH)) {
+				throw new NotFoundException();
+			}
+		} catch (IOException e) {
+			throw new NotFoundException();
+		}
 	}
 
 	private CacheControl buildCacheControl() {
