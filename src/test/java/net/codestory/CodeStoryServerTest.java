@@ -41,7 +41,7 @@ public class CodeStoryServerTest {
 				commit("", "author2", "url2", "message2")));
 
 		when(mockAllBuilds.list()).thenReturn(asList( //
-				build("SUCCESS", "sha1")));
+				build("sha1", "SUCCESS")));
 	}
 
 	@Test
@@ -83,7 +83,7 @@ public class CodeStoryServerTest {
 		return 0 == new Shell().execute(format("./mocha.sh src/test/resources/%s %d", jsTest, port()));
 	}
 
-	static Build build(String result, String sha1) {
+	static Build build(String sha1, String result) {
 		return new Build(result, new ChangesSet(asList(new Item(sha1))));
 	}
 
