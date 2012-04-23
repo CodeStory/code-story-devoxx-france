@@ -1,5 +1,6 @@
 package net.codestory;
 
+import com.google.common.base.*;
 import com.google.common.util.concurrent.*;
 import com.google.inject.*;
 import com.sun.jersey.api.container.httpserver.*;
@@ -14,6 +15,7 @@ import static com.google.inject.Guice.*;
 import static com.google.inject.util.Modules.*;
 
 public class CodeStoryServer extends AbstractIdleService {
+	private static final String DEFAULT_PORT = "8085";
 	private final int port;
 	private final Module[] modules;
 	private HttpServer httpServer;
@@ -46,7 +48,7 @@ public class CodeStoryServer extends AbstractIdleService {
 	}
 
 	public static void main(String[] args) {
-		int port = Integer.valueOf(System.getenv("PORT"));
+		int port = Integer.valueOf(Objects.firstNonNull(System.getenv("PORT"), DEFAULT_PORT));
 
 		new CodeStoryServer(port).startAndWait();
 	}
