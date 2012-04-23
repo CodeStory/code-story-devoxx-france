@@ -8,6 +8,7 @@ import net.gageot.test.rules.*;
 import net.gageot.test.utils.*;
 import org.eclipse.egit.github.core.Commit;
 import org.eclipse.egit.github.core.*;
+import org.hamcrest.*;
 import org.junit.*;
 
 import java.util.*;
@@ -65,6 +66,16 @@ public class CodeStoryServerTest {
 	public void should_serve_style_as_less() {
 		expect().contentType(TEXT).content(containsString("body")) //
 				.when().get("/style.less");
+	}
+
+	@Test
+	public void should_stamp_cachecontrol_on_static_resource() {
+		expect().header("Cache-control", containsString("max-age=2592000")).when().get("/fusee-16x16.png");
+	}
+
+	@Test
+	public void should_stamp_lastmodifiedby_on_static_resource() {
+		expect().header("Last-modified", Matchers.<String>notNullValue()).when().get("/fusee-16x16.png");
 	}
 
 	@Test
