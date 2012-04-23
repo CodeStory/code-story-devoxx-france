@@ -1,29 +1,41 @@
 package net.codestory;
 
-import com.google.inject.*;
-import com.jayway.restassured.specification.*;
-import net.codestory.github.*;
-import net.codestory.jenkins.*;
-import net.gageot.test.rules.*;
-import net.gageot.test.utils.*;
-import org.eclipse.egit.github.core.Commit;
+import com.gargoylesoftware.htmlunit.*;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.google.common.io.Files;
+import com.google.inject.AbstractModule;
+import com.jayway.restassured.specification.ResponseSpecification;
+import net.codestory.github.AllCommits;
+import net.codestory.jenkins.AllBuilds;
+import net.codestory.jenkins.Build;
+import net.codestory.jenkins.ChangesSet;
+import net.codestory.jenkins.Item;
+import net.gageot.test.rules.ServiceRule;
 import org.eclipse.egit.github.core.*;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Test;
 
-import java.util.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.Date;
 
-import static com.jayway.restassured.RestAssured.*;
+import static com.jayway.restassured.RestAssured.given;
 import static groovyx.net.http.ContentType.*;
-import static java.lang.String.*;
-import static java.util.Arrays.*;
-import static net.gageot.test.rules.ServiceRule.*;
-import static org.fest.assertions.Assertions.*;
-import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.*;
+import static java.util.Arrays.asList;
+import static junit.framework.Assert.assertEquals;
+import static net.gageot.test.rules.ServiceRule.startWithRandomPort;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasItems;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class CodeStoryServerTest {
 	static AllCommits mockAllCommits = mock(AllCommits.class);
 	static AllBuilds mockAllBuilds = mock(AllBuilds.class);
+	static final WebClient webClient = new WebClient(BrowserVersion.FIREFOX_3_6);
 
 	@ClassRule
 	public static ServiceRule<CodeStoryServer> codeStoryServer = startWithRandomPort(CodeStoryServer.class, new AbstractModule() {
@@ -44,10 +56,10 @@ public class CodeStoryServerTest {
 				build("SUCCESS", "sha1")));
 	}
 
-	@Test
-	public void should_show_home_page() {
-		assertThat(jsTest("testHomePage.js")).isTrue();
-	}
+//	@Test
+//	public void should_show_home_page() {
+//		assertThat(jsTest("testHomePage.js")).isTrue();
+//	}
 
 	@Test
 	public void should_list_commits_as_json() {
@@ -79,9 +91,70 @@ public class CodeStoryServerTest {
 				.when().get("/not_found");
 	}
 
-	static boolean jsTest(String jsTest) {
-		return 0 == new Shell().execute(format("./mocha.sh src/test/resources/%s %d", jsTest, port()));
+	@Test(expected = FailingHttpStatusCodeException.class)
+	public void check_404() throws IOException, InterruptedException {
+		String pageUrl = "http://localhost:" + port() + "/%2E%2E/pom.xml";
+		webClient.getPage(new URL(pageUrl));
+		//System.out.println(page.getWebResponse().getContentAsString());
 	}
+
+	@Test
+	public void html_good_title() throws IOException {
+		final HtmlPage startPage = webClient.getPage("http://localhost:" + port() + "/");
+		assertEquals("CodeStory - HomePage", startPage.getTitleText());
+	}
+
+	@Test
+	public void html_commits() throws IOException, InterruptedException {
+		webClient.setAjaxController(new NicelyResynchronizingAjaxController());
+		final HtmlPage startPage = webClient.getPage("http://localhost:" + port() + "/");
+		webClient.waitForBackgroundJavaScript(5000);
+
+
+		startPage.executeJavaScript(Files.toString(new File("expect.js"), Charset.forName("UTF-8")));
+
+		startPage.executeJavaScript(
+				"expect($(\"#commits .commit:nth-child(1) .description:contains('message1')\")).to.not.be.empty();" +
+						"expect($(\"#commits .commit:nth-child(2) .description:contains('message2')\")).to.not.be.empty();" +
+						"expect($(\"#commits .commit:nth-child(1) img[src='url1']\")).to.not.be.empty();" +
+						"expect($(\"#commits .commit:nth-child(2) img[src='url2']\")).to.not.be.empty();" +
+						"expect($(\"#commits .commit:nth-child(1) img[class='portrait SUCCESS']\")).to.not.be.empty();" +
+						"expect($(\"#commits .commit:nth-child(2) img[class='portrait FAILURE']\")).to.not.be.empty();"
+		);
+	}
+
+	@Test
+	public void html_project_name() throws IOException, InterruptedException {
+		webClient.setAjaxController(new NicelyResynchronizingAjaxController());
+		final HtmlPage startPage = webClient.getPage("http://localhost:" + port() + "/");
+		webClient.waitForBackgroundJavaScript(5000);
+
+		startPage.executeJavaScript(Files.toString(new File("expect.js"), Charset.forName("UTF-8")));
+
+		startPage.executeJavaScript(
+				"expect($(\"h2:contains('CodeStory')\")).to.not.be.empty();"
+		);
+	}
+
+	@Test
+	public void html_badges() throws IOException, InterruptedException {
+		webClient.setAjaxController(new NicelyResynchronizingAjaxController());
+		final HtmlPage startPage = webClient.getPage("http://localhost:" + port() + "/");
+		webClient.waitForBackgroundJavaScript(5000);
+
+		startPage.executeJavaScript(Files.toString(new File("expect.js"), Charset.forName("UTF-8")));
+
+		startPage.executeJavaScript(
+				"expect($(\"#badges .badge:nth-child(1) p:contains('Top Committer')\")).to.not.be.empty();" +
+						"expect($(\"#badges .badge:nth-child(2) p:contains('Fatty Committer')\")).to.not.be.empty();" +
+						"expect($(\"#badges .badge:nth-child(1) img[src='/badges/top.png']\")).to.not.be.empty();" +
+						"expect($(\"#badges .badge:nth-child(2) img[src='/badges/fatty.png']\")).to.not.be.empty();"
+		);
+	}
+
+//    static boolean jsTest(String jsTest) {
+//            return 0 == new Shell().execute(format("./mocha.sh src/test/resources/%s %d", jsTest, port()));
+//	}
 
 	static Build build(String result, String sha1) {
 		return new Build(result, new ChangesSet(asList(new Item(sha1))));
