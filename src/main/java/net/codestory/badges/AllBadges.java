@@ -2,6 +2,7 @@ package net.codestory.badges;
 
 import com.google.inject.*;
 import groovy.lang.*;
+import net.codestory.cache.*;
 import net.codestory.github.*;
 import org.eclipse.egit.github.core.*;
 
@@ -18,6 +19,7 @@ public class AllBadges {
 
 	@Inject AllCommits allCommits;
 
+	@Cached
 	public List<Badge> list() {
 		return excludeNullBadges(asList( //
 				badge(topCommitter(), "Top Committer", "top.png"), //
