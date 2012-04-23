@@ -63,17 +63,19 @@ public class CodeStoryResource {
 
 	@GET
 	@Path("{path : .*}")
-	public Response staticResource(@PathParam("path") String path) {
+	public Response staticResource(@PathParam("path") String path) throws IOException {
 		File file = file(path);
-		if (!file.exists()) {
-			throw new NotFoundException();
-		}
 		String mimeType = new MimetypesFileTypeMap().getContentType(file);
 		return Response.ok(file, mimeType).cacheControl(buildCacheControl()).lastModified(new Date()).build();
 	}
 
-	static File file(String path) {
-		return new File("web", path);
+	static File file(String path) throws IOException {
+		File root = new File("web");
+		File file = new File(root, path);
+		if (!file.exists() || !file.getCanonicalPath().startsWith(root.getCanonicalPath())) {
+			throw new NotFoundException();
+		}
+		return file;
 	}
 
 	static CacheControl buildCacheControl() {
