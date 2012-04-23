@@ -35,41 +35,45 @@ public class CodeStoryResource {
 	@GET
 	@Path("commits")
 	@Produces("application/json;charset=UTF-8")
-	public List<Commit> commits() {
-		return with(allCommits.list()).to(TO_COMMIT).toList();
+	public Iterable<Commit> commits() {
+		return with(allCommits.list()).to(TO_COMMIT);
 	}
 
 	@GET
 	@Path("badges")
 	@Produces("application/json;charset=UTF-8")
-	public List<Badge> badges() {
+	public Iterable<Badge> badges() {
 		return allBadges.list();
 	}
 
 	@GET
 	@Path("{path : .*\\.less}")
 	public String style(@PathParam("path") String path) throws IOException, LessException {
-		return new LessCompiler().compile(new File("web", path));
+		return new LessCompiler().compile(file(path));
 	}
 
 	@GET
 	@Path("codestory.js")
 	@Produces("application/javascript;charset=UTF-8")
 	public String javascript() throws IOException {
-		return Files.toString(new File("web", "mustache.js"), UTF_8) + //
-				Files.toString(new File("web", "jquery.js"), UTF_8) + //
-				Files.toString(new File("web", "codestory.js"), UTF_8);
+		return Files.toString(file("mustache.js"), UTF_8) + //
+				Files.toString(file("jquery.js"), UTF_8) + //
+				Files.toString(file("codestory.js"), UTF_8);
 	}
 
 	@GET
 	@Path("{path : .*}")
 	public Response staticResource(@PathParam("path") String path) {
-		File file = new File("web", path);
+		File file = file(path);
 		if (!file.exists()) {
 			throw new NotFoundException();
 		}
 		String mimeType = new MimetypesFileTypeMap().getContentType(file);
 		return Response.ok(file, mimeType).cacheControl(buildCacheControl()).lastModified(new Date()).build();
+	}
+
+	static File file(String path) {
+		return new File("web", path);
 	}
 
 	static CacheControl buildCacheControl() {
