@@ -1,6 +1,7 @@
 package net.codestory;
 
 import com.google.common.base.*;
+import com.google.common.io.*;
 import com.google.inject.*;
 import com.sun.jersey.api.*;
 import net.codestory.badges.*;
@@ -16,6 +17,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+import static com.google.common.base.Charsets.*;
 import static com.google.common.base.Objects.*;
 import static net.codestory.misc.DateFormat.*;
 import static net.gageot.listmaker.ListMaker.*;
@@ -48,6 +50,15 @@ public class CodeStoryResource {
 	@Path("{path : .*\\.less}")
 	public String style(@PathParam("path") String path) throws IOException, LessException {
 		return new LessCompiler().compile(new File("web", path));
+	}
+
+	@GET
+	@Path("codestory.js")
+	@Produces("application/javascript;charset=UTF-8")
+	public String javascript() throws IOException {
+		return Files.toString(new File("web", "mustache.js"), UTF_8) + //
+				Files.toString(new File("web", "jquery.js"), UTF_8) + //
+				Files.toString(new File("web", "codestory.js"), UTF_8);
 	}
 
 	@GET
