@@ -1,41 +1,18 @@
 package net.codestory;
 
-import com.google.inject.*;
-import com.jayway.restassured.specification.*;
-import net.codestory.github.*;
-import net.codestory.jenkins.*;
-import net.gageot.test.rules.*;
-import net.gageot.test.utils.*;
-import org.eclipse.egit.github.core.Commit;
-import org.eclipse.egit.github.core.*;
-import org.junit.*;
-
-import java.util.*;
-
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-
-import static com.jayway.restassured.RestAssured.*;
-import static groovyx.net.http.ContentType.*;
-import static java.lang.String.*;
-import static java.util.Arrays.*;
-import static net.gageot.test.rules.ServiceRule.*;
-import static org.fest.assertions.Assertions.*;
-import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.*;
-
-
 import com.google.common.io.Files;
 import com.google.inject.AbstractModule;
 import com.jayway.restassured.specification.ResponseSpecification;
+import net.codestory.github.AllCommits;
 import net.codestory.jenkins.AllBuilds;
 import net.codestory.jenkins.Build;
 import net.codestory.jenkins.ChangesSet;
 import net.codestory.jenkins.Item;
 import net.gageot.test.rules.ServiceRule;
-import org.eclipse.egit.github.core.Commit;
 import org.eclipse.egit.github.core.*;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -47,7 +24,7 @@ import java.nio.charset.Charset;
 import java.util.Date;
 
 import static com.jayway.restassured.RestAssured.given;
-import static groovyx.net.http.ContentType.JSON;
+import static groovyx.net.http.ContentType.*;
 import static java.util.Arrays.asList;
 import static junit.framework.Assert.assertEquals;
 import static net.gageot.test.rules.ServiceRule.startWithRandomPort;
@@ -166,7 +143,7 @@ public class CodeStoryServerTest {
 		startPage.executeJavaScript(
 				"expect($(\"#badges .badge:nth-child(1) p:contains('Top Committer')\")).to.not.be.empty();" +
 						"expect($(\"#badges .badge:nth-child(2) p:contains('Fatty Committer')\")).to.not.be.empty();" +
-						"expect($(\"#badges .badge:nth-child(1) img[src='/badges/topCommiter.png']\")).to.not.be.empty();" +
+						"expect($(\"#badges .badge:nth-child(1) img[src='/badges/top.png']\")).to.not.be.empty();" +
 						"expect($(\"#badges .badge:nth-child(2) img[src='/badges/fatty.png']\")).to.not.be.empty();"
 		);
 	}
