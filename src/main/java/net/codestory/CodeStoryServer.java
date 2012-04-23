@@ -11,8 +11,10 @@ import com.sun.net.httpserver.*;
 import net.codestory.github.*;
 import org.codehaus.jackson.jaxrs.*;
 
+import static com.google.common.base.Objects.*;
 import static com.google.inject.Guice.*;
 import static com.google.inject.util.Modules.*;
+import static java.lang.Integer.*;
 
 public class CodeStoryServer extends AbstractIdleService {
 	private static final String DEFAULT_PORT = "8085";
