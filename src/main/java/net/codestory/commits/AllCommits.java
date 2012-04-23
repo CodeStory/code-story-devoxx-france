@@ -1,4 +1,4 @@
-package net.codestory.github;
+package net.codestory.commits;
 
 import com.google.common.base.*;
 import net.codestory.cache.*;

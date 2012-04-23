@@ -2,7 +2,7 @@ package net.codestory;
 
 import com.google.inject.*;
 import com.jayway.restassured.specification.*;
-import net.codestory.github.*;
+import net.codestory.commits.*;
 import net.codestory.jenkins.*;
 import net.gageot.test.rules.*;
 import net.gageot.test.utils.*;

@@ -3,7 +3,7 @@ package net.codestory.badges;
 import com.google.inject.*;
 import groovy.lang.*;
 import net.codestory.cache.*;
-import net.codestory.github.*;
+import net.codestory.commits.*;
 import org.eclipse.egit.github.core.*;
 
 import java.util.*;

@@ -8,7 +8,7 @@ import com.sun.jersey.core.spi.component.ioc.*;
 import com.sun.jersey.guice.spi.container.*;
 import com.sun.net.httpserver.*;
 import net.codestory.cache.*;
-import net.codestory.github.*;
+import net.codestory.commits.*;
 import org.codehaus.jackson.jaxrs.*;
 
 import static com.google.common.base.Objects.*;

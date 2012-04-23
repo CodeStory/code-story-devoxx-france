@@ -1,6 +1,6 @@
 package net.codestory.badges;
 
-import net.codestory.github.*;
+import net.codestory.commits.*;
 import org.eclipse.egit.github.core.Commit;
 import org.eclipse.egit.github.core.*;
 import org.junit.*;

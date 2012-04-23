@@ -5,8 +5,8 @@ import com.google.common.io.*;
 import com.google.inject.*;
 import com.sun.jersey.api.*;
 import net.codestory.badges.*;
-import net.codestory.github.*;
-import net.codestory.github.Commit;
+import net.codestory.commits.*;
+import net.codestory.commits.Commit;
 import org.eclipse.egit.github.core.*;
 import org.lesscss.*;
 

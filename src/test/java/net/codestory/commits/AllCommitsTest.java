@@ -1,4 +1,4 @@
-package net.codestory.github;
+package net.codestory.commits;
 
 import org.eclipse.egit.github.core.*;
 import org.junit.*;
