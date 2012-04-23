@@ -69,11 +69,10 @@ public class CodeStoryResource {
 			throw new NotFoundException();
 		}
 		String mimeType = new MimetypesFileTypeMap().getContentType(file);
-		buildCacheControl();
 		return Response.ok(file, mimeType).cacheControl(buildCacheControl()).lastModified(new Date()).build();
 	}
 
-	private CacheControl buildCacheControl() {
+	static CacheControl buildCacheControl() {
 		CacheControl cacheControl = new CacheControl();
 		cacheControl.setMaxAge(3600 * 24 * 30); // 1 month
 		cacheControl.setNoTransform(false); // bug is jax-rs
