@@ -40,7 +40,7 @@ h2 {
 
 #header {
 	position: fixed;
-	height: 300px;
+	height: 250px;
 	.gradient();
 	width: 100%;
 }
@@ -63,15 +63,18 @@ h2 {
 			.description {
 				color: white;
 				width: 200px;
+
+				a {
+					display: block;
+					margin-top: 3px;
+					margin-bottom: 0;
+					text-decoration: none;
+					color: white;
+				}
 			}
 
 			.date {
 				color: grey;
-			}
-
-			p {
-				margin-top: 3px;
-				margin-bottom: 0;
 			}
 		}
 	}
@@ -126,7 +129,7 @@ h2 {
 		float: right;
 	}
 
-	.date, p {
+	.date, a {
 		margin-right: 12px;
 	}
 }
@@ -140,7 +143,7 @@ h2 {
 		float: left;
 	}
 
-	.date, p {
+	.date, a {
 		margin-left: 8px;
 	}
 }

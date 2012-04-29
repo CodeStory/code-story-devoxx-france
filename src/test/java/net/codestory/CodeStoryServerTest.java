@@ -38,8 +38,8 @@ public class CodeStoryServerTest {
 	@Before
 	public void setupMocks() {
 		when(mockAllCommits.list()).thenReturn(asList( //
-				commit("sha1", "author1", "url1", "message1"), //
-				commit("", "author2", "url2", "message2")));
+				commit("sha1", "author1", "gravatarUrl1", "message1", "githubUrl1"), //
+				commit("", "author2", "gravatarUrl2", "message2", "githubUrl2")));
 
 		when(mockAllBuilds.list()).thenReturn(asList( //
 				build("sha1", "SUCCESS")));
@@ -98,9 +98,10 @@ public class CodeStoryServerTest {
 		return new Build(result, new ChangesSet(asList(new Item(sha1))));
 	}
 
-	static RepositoryCommit commit(String sha1, String login, String avatarUrl, String message) {
+	static RepositoryCommit commit(String sha1, String login, String avatarUrl, String message, String url) {
 		return new RepositoryCommit() //
 				.setSha(sha1) //
+				.setUrl(url) //
 				.setStats(new CommitStats()) //
 				.setAuthor(new User().setLogin(login).setAvatarUrl(avatarUrl)) //
 				.setCommit(new Commit().setMessage(message).setAuthor(new CommitUser().setDate(new Date())));

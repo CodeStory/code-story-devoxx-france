@@ -17,11 +17,11 @@
 		<script type="text/x-template" id="commit-template">
 			{{#.}}
 			<div class="commit">
-				<img class="portrait {{status}}" src="{{gravatarUrl}}"/>
+				<a href="{{url}}"><img class="portrait {{status}}" src="{{gravatarUrl}}"/></a>
 
 				<div class="description">
 					<div class="date">{{date}}</div>
-					<p>{{message}}</p>
+					<a href="{{url}}">{{message}}</a>
 				</div>
 			</div>
 			{{/.}}

@@ -99,7 +99,8 @@ public class CodeStoryResource {
 					avatarUrl.split("\\?")[0], //
 					commit.getMessage(), //
 					format(commit.getAuthor().getDate()), //
-					sha1.isEmpty() ? "FAILURE" : "SUCCESS");
+					sha1.isEmpty() ? "FAILURE" : "SUCCESS", //
+					githubCommit.getUrl().replaceFirst("https://api.github.com/repos/", "https://github.com/"));
 		}
 	};
 }

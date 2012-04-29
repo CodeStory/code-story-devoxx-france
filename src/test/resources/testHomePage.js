@@ -12,12 +12,14 @@ test("Checking page title", function (done) {
 
 test("Checking commits", function (done) {
     Browser.visit(home, function (e, browser) {
-        expect(browser.query("#commits .commit:nth-child(1) :contains('message1')")).to.be.ok();
-        expect(browser.query("#commits .commit:nth-child(1) img[src='url1']")).to.be.ok();
+        expect(browser.query("#commits .commit:nth-child(1) a:contains('message1')")).to.be.ok();
+        expect(browser.query("#commits .commit:nth-child(1) a[href='githubUrl1']")).to.be.ok();
+        expect(browser.query("#commits .commit:nth-child(1) img[src='gravatarUrl1']")).to.be.ok();
         expect(browser.query("#commits .commit:nth-child(1) img[class='portrait SUCCESS']")).to.be.ok();
 
-        expect(browser.query("#commits .commit:nth-child(2) :contains('message2')")).to.be.ok();
-        expect(browser.query("#commits .commit:nth-child(2) img[src='url2']")).to.be.ok();
+        expect(browser.query("#commits .commit:nth-child(2) a:contains('message2')")).to.be.ok();
+        expect(browser.query("#commits .commit:nth-child(2) a[href='githubUrl2']")).to.be.ok();
+        expect(browser.query("#commits .commit:nth-child(2) img[src='gravatarUrl2']")).to.be.ok();
         expect(browser.query("#commits .commit:nth-child(2) img[class='portrait FAILURE']")).to.be.ok();
 
         done();
