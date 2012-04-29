@@ -85,7 +85,7 @@ public class AllBadgesTest {
 
 	@Test
 	public void should_show_verbose_committer() {
-		when(allCommits.list()).thenReturn(asList(commit("jlm", "url2", "LONG MESSAGE"), commit("dgageot", "url1", "")));
+		when(allCommits.list()).thenReturn(asList(commit("jlm", "url2", "LONG MESSAGE"), commit("dgageot", "url1", "Z")));
 
 		User verboseCommitter = allBadges.verboseCommitter();
 

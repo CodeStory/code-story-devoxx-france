@@ -15,7 +15,7 @@ import static net.gageot.listmaker.ListMaker.*;
 public class AllBadges {
 	private static final String TOP_COMMITTER = "(commits.groupBy { it.author?.login }.findAll { it.key != null }.max { it.value.size }?.value ?: [])[0]?.author";
 	private static final String FATTY_COMMITTER = "commits.findAll { it.stats != null }.max { it.stats.additions - it.stats.deletions }?.author ";
-	private static final String VERBOSE_COMMITTER = "commits.max { it.commit?.message ?: '' }?.author";
+	private static final String VERBOSE_COMMITTER = "commits.max { it.commit?.message?.length() ?: 0 }?.author";
 
 	@Inject AllCommits allCommits;
 
