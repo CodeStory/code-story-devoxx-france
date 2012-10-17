@@ -59,7 +59,7 @@ public class CodeStoryServer extends AbstractIdleService {
 	static class CodeStoryModule extends AbstractModule {
 		@Override
 		protected void configure() {
-			bind(AllCommits.class).toInstance(new AllCommits("dgageot", "CodeStoryDevoxx"));
+			bind(AllCommits.class).toInstance(new AllCommits("CodeStory", "code-story-devoxx-france"));
 			bindInterceptor(any(), annotatedWith(Cached.class), new CacheInterceptor());
 		}
 	}
